@@ -1,8 +1,0 @@
-[{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "io.github.khaledhalol20141_ux.twa",
-        "sha256_cert_fingerprints": ["12:A8:36:1C:5B:76:2A:BC:13:73:57:A6:17:90:50:AC:52:DF:0E:07:75:5E:F2:09:A4:51:12:5B:18:4B:B0:05"]
-      }
-    }]
