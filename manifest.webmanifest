@@ -34,5 +34,65 @@
   "categories": [
     "medical",
     "health"
+  ],
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "launch_handler": {
+    "client_mode": [
+      "focus-existing",
+      "auto"
+    ]
+  },
+  "shortcuts": [
+    {
+      "name": "زيارة جديدة",
+      "short_name": "زيارة جديدة",
+      "url": "./?v=new",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "سجل الزيارات",
+      "short_name": "الزيارات",
+      "url": "./?v=visits",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "المتابعات",
+      "short_name": "المتابعات",
+      "url": "./?v=followups",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "مخزن الأدوية",
+      "short_name": "المخزن",
+      "url": "./?v=stock",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
   ]
 }

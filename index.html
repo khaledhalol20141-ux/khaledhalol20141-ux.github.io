@@ -996,10 +996,12 @@ function poll(){
 function startSession(u){
  if(!S.loaded)S.view=['home','new','visits','followups'].indexOf(S.start)>-1&&!(S.start==='new'&&isViewer())?S.start:'home';
  S.photo=store.get('photo_'+u.id,'')||'';
+ try{var qv=new URLSearchParams(location.search).get('v');if(['home','new','visits','followups','stock'].indexOf(qv)>-1&&!(qv==='new'&&isViewer()))S.view=qv;}catch(e){}
  S.session=u.email;S.user={id:u.id,email:u.email,name:''};S.loading=true;S.loaded=false;S.loadErr='';S.role=null;render();
  sb.from('profiles').select('full_name,role').eq('id',u.id).maybeSingle().then(function(r){
   if(r.error)throw r.error;
   S.role=r.data?r.data.role:null;
+  if(isViewer()&&S.view==='new')S.view='home';
   S.user.name=((r.data&&r.data.full_name)||'').replace(/\s+/g,' ').trim()||u.email;
   if(!isTeam()){S.loading=false;render();return;}
   return loadAll(false);
