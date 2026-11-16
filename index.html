@@ -143,6 +143,17 @@ textarea{min-height:84px;resize:vertical}
 .linkcard{text-align:start;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
 .linkcard:hover{border-color:var(--brand)}
 
+.anscroll{overflow-x:auto}
+.hm{width:100%;border-collapse:separate;border-spacing:3px;font-size:13px}
+.hm th{font-weight:600;color:var(--muted);padding:4px 6px;text-align:center;white-space:nowrap}
+.hm td{text-align:center;border-radius:8px;padding:8px 6px;min-width:34px;font-variant-numeric:tabular-nums;background:var(--surface2)}
+.hm td.z{background:transparent;border:1px dashed var(--line)}
+.hm td.l{text-align:start;background:none;white-space:nowrap;padding-inline-end:10px;font-weight:600}
+.hm.abc td{border-radius:6px;text-align:start;white-space:nowrap}
+.hm.abc th{text-align:start}
+.cls{display:inline-block;min-width:24px;text-align:center;padding:2px 10px;border-radius:999px;font-weight:700;font-size:12px;white-space:nowrap}
+.cls.A{background:var(--c-inj);color:#fff}.cls.B{background:var(--c-sick);color:#2a1d00}.cls.C{background:var(--chip);color:var(--chip-fg)}
+details summary{cursor:pointer;color:var(--muted);font-size:14px}
 .bar{display:grid;grid-template-columns:minmax(70px,30%) minmax(0,1fr) auto;gap:10px;align-items:center;margin:9px 0}
 .bar span{overflow-wrap:anywhere;font-size:14px}
 .bar .track{height:12px;border-radius:6px;background:var(--surface2);overflow:hidden}
@@ -467,7 +478,7 @@ ar:{
  lowAlert:'أدوية قاربت على النفاد أو نفدت. راجع المخزن.',openStock:'فتح المخزن',
  editVisit:'تعديل الزيارة',worker:'اسم الموظف',empId:'الرقم الوظيفي',dept:'القسم',officer:'مسؤول العيادة',meds:'الأدوية المصروفة',complaint:'الشكوى',diagnosis:'التشخيص',notes:'ملاحظات',followup:'موعد المتابعة',date:'التاريخ',
  vtype:'نوع الزيارة',injury:'إصابة عمل',sick:'مرضي',checkup:'كشف بالعيادة',injuryPlace:'مكان الإصابة ووصف الحادث',
- empKnown:'موظف مسجل، زياراته السابقة:',empNew:'موظف جديد، يُضاف لسجل الموظفين عند الحفظ',
+ empKnown:'موظف مسجل، زياراته السابقة:',empNew:'موظف جديد، يُضاف لسجل الموظفين عند الحفظ',empAmbig:'فيه أكثر من موظف بنفس الاسم، اكتب الرقم الوظيفي لتحديد الشخص',empByCode:'هذا الرقم الوظيفي مسجل باسم',fixBtn:'فحص السجلات المدموجة بالخطأ',fixNote:'لو موظفين بأسماء متشابهة اتسجلوا قبل كده كشخص واحد، الأداة بتفصلهم حسب الرقم الوظيفي المكتوب في كل زيارة.',fixNone:'لا توجد سجلات مدموجة بالخطأ',fixAsk:'سيتم فصل {e} موظف ونقل {v} زيارة و{s} فحص إلى سجلات منفصلة حسب الرقم الوظيفي. متابعة؟',fixYes:'فصل السجلات',fixDone:'تم الفصل، موظفون جدد: {e}',
  save:'حفظ الزيارة',saveEdit:'حفظ التعديلات',cancel:'إلغاء',choose:'اختر...',add:'إضافة',newName:'اسم جديد',addTitle:'إضافة إلى القائمة',
  req:'اكمل الحقول المطلوبة: اسم الموظف والقسم ومسؤول العيادة.',saved:'تم حفظ الزيارة في سجل الموظف',updated:'تم حفظ التعديلات',deleted:'تم الحذف',
  exists:'العنصر موجود بالفعل',added:'تمت الإضافة',emptyName:'اكتب الاسم أولاً',noMeds:'لا توجد أدوية في المخزن. أضف دواء من الأسفل.',
@@ -502,7 +513,7 @@ en:{
  lowAlert:'Some medicines are low or out of stock. Check the stock.',openStock:'Open stock',
  editVisit:'Edit visit',worker:'Employee name',empId:'Employee ID',dept:'Department',officer:'Clinic officer',meds:'Medicines dispensed',complaint:'Complaint',diagnosis:'Diagnosis',notes:'Notes',followup:'Follow-up date',date:'Date',
  vtype:'Visit type',injury:'Work injury',sick:'Sick visit',checkup:'Clinic check-up',injuryPlace:'Injury location and incident details',
- empKnown:'Registered employee, previous visits:',empNew:'New employee, will be added to the employee records on save',
+ empKnown:'Registered employee, previous visits:',empNew:'New employee, will be added to the employee records on save',empAmbig:'More than one employee has this name, enter the employee ID to identify the person',empByCode:'This employee ID is registered under',fixBtn:'Check wrongly merged records',fixNote:'If employees with similar names were saved as one person before, this splits them by the employee ID written on each visit.',fixNone:'No wrongly merged records found',fixAsk:'{e} employee(s) will be split out, moving {v} visit(s) and {s} screening(s) to separate records by employee ID. Continue?',fixYes:'Split records',fixDone:'Done, new employee records: {e}',
  save:'Save visit',saveEdit:'Save changes',cancel:'Cancel',choose:'Choose...',add:'Add',newName:'New name',addTitle:'Add to list',
  req:'Fill the required fields: employee name, department and clinic officer.',saved:'Visit saved to the employee record',updated:'Changes saved',deleted:'Deleted',
  exists:'This item already exists',added:'Added',emptyName:'Type a name first',noMeds:'No medicines in stock. Add one below.',
@@ -568,7 +579,7 @@ var S={
  session:null,user:null,role:null,loading:true,loaded:false,recovering:false,loadErr:'',
  lists:{depts:[],officers:[]},visits:[],stock:[],hmeds:[],moves:[],employees:[],requests:[],handovers:[],places:[],temps:[],campaigns:[],screenings:[],camp:null,scFilter:'all',scDraft:null,scPre:null,users:null,uErr:'',uAdd:false,uCreated:null,
  view:'home',menu:false,auth:'login',draft:null,editing:null,addOpen:null,empId:null,eDraft:null,recv:null,wd:null,sEdit:null,ded:null,dedNurse:'',sq:'',sf:'all',mf:'all',mvN:15,ij:{period:today().slice(0,7),dept:'',work:'work'},
- filters:{q:'',dept:'',month:today().slice(0,7),eq:'',type:''},limit:5,al:{period:today().slice(0,7)},period:today().slice(0,7),err:''
+ filters:{q:'',dept:'',month:today().slice(0,7),eq:'',type:''},limit:5,al:{period:today().slice(0,7)},an:{tab:'repeat',gran:'week',type:'all',shift:'all',months:'6'},period:today().slice(0,7),err:''
 };
 T.ar.nurse='الممرض';T.en.nurse='Nurse';
 T.ar.outer='الدولاب الخارجي';T.ar.inner='الدولاب الداخلي';T.ar.boxWord='علبة';T.ar.boxes='عدد العلب';T.ar.innerBoxes='عدد العلب بالدولاب الداخلي';T.ar.outerQty='الكمية بالدولاب الخارجي (أقراص)';T.ar.recvBoxes='عدد العلب المستلمة';
@@ -577,7 +588,7 @@ T.ar.wdOver='عدد العلب أكبر من المتاح بالدولاب ال�
 T.en.outer='Outer cabinet';T.en.inner='Inner cabinet';T.en.boxWord='box(es)';T.en.boxes='Boxes';T.en.innerBoxes='Boxes in inner cabinet';T.en.outerQty='Outer quantity (loose units)';T.en.recvBoxes='Boxes received';
 T.en.perBox='Units per box';T.en.wd='Withdraw a box';T.en.wdHelp='Boxes leave the inner cabinet and their units are added to the outer cabinet.';T.en.wdDone='Box withdrawn and units added to the outer cabinet';
 T.en.wdOver='More boxes than available inside';T.en.needPerBox='Enter units per box';T.en.moveTr='Box withdrawn';T.en.wdHint='Withdraw a box';
-T.ar.noExp='بدون تاريخ';T.en.noExp='No date';T.ar.wdLot='الدفعة (تاريخ الصلاحية)';T.en.wdLot='Batch (expiry)';
+T.ar.analytics='التحليلات المتقدمة';T.ar.anRepeat='تكرار الزيارات';T.ar.anHeat='خريطة الأقسام';T.ar.anAbc='تحليل ABC';T.ar.anFc='تنبؤ الاستهلاك';T.ar.anMed='الدواء';T.ar.repCrit='معيار التنبيه: «تنبيه» = نفس الحالة 3 مرات أو أكثر خلال 90 يوم، أو 4 زيارات فأكثر خلال 30 يوم. «متابعة» = نفس الحالة مرتين، أو 3 زيارات خلال 30 يوم. التنبيه مؤشر للمراجعة الطبية وليس تشخيصًا.';T.ar.repNone='لا توجد حالات متكررة حاليًا.';T.ar.repAlert='تنبيه';T.ar.repWatch='متابعة';T.ar.rep7='7 أيام';T.ar.rep30='30 يوم';T.ar.rep90='90 يوم';T.ar.repCond='الحالة المتكررة';T.ar.repCondN='عدد التكرار';T.ar.repHistory='الزيارات المرتبطة بالحالة';T.ar.repSame='نفس الشكوى سُجلت {n} مرة خلال آخر 90 يوم، يلزم مراجعة الطبيب';T.ar.repFreq='زيارات متكررة: 7 أيام ({a}) · 30 يوم ({b}) · 90 يوم ({c})';T.ar.hmDay='يومي (14 يوم)';T.ar.hmWeek='أسبوعي (8 أسابيع)';T.ar.hmMonth='شهري (6 شهور)';T.ar.allTypes='كل الأنواع';T.ar.allShifts='كل الورديات';T.ar.hmTotal='الإجمالي';T.ar.hmInj='إصابات';T.ar.hmEmps='عدد الموظفين';T.ar.hmRate='إصابات لكل 100 موظف';T.ar.hmTop='الأعلى إصابات';T.ar.hmCrit='العدد = زيارات مسجلة بالقسم في الفترة المعروضة. الوردية تُحسب من وقت الزيارة: صباحية 08:00–15:59، مسائية 16:00–23:59، ليلية 00:00–07:59 (الزيارات بدون وقت لا تظهر عند اختيار وردية). معدل الإصابات = إصابات القسم ÷ عدد موظفي القسم المسجلين × 100.';T.ar.abcMonths='شهور';T.ar.abcUnits='الكمية (وحدات)';T.ar.abcValue='قيمة الاستهلاك';T.ar.abcShare='النسبة';T.ar.abcCum='التراكمي';T.ar.abcClass='الفئة';T.ar.abcTotal='إجمالي قيمة الاستهلاك';T.ar.abcWatch='رصيد منخفض';T.ar.abcNoPrice='بعض الصرف بدون سعر';T.ar.abcNoPriceN='{n} صنف فيه صرف بدون سعر مسجل، فقيمته ناقصة. سجّل سعر العلبة في المخزن.';T.ar.abcCrit='القيمة = الكمية المصروفة × سعر الوحدة وقت الصرف. A = الأصناف التي تمثل أول 80% من القيمة، B = حتى 95%، C = الباقي. للأولوية في الشراء والجرد، وليست بديلًا عن قرار الصيدلي.';T.ar.fcTitle='الاستهلاك المتوقع للشهر القادم';T.ar.fcActual='الشهر الماضي (فعلي)';T.ar.fcForecast='المتوقع';T.ar.fcStock='الرصيد';T.ar.fcCover='يكفي (شهر)';T.ar.fcOutDate='النفاد المتوقع';T.ar.fcReorder='الكمية المقترحة للطلب';T.ar.fcAtRisk='أصناف معرّضة للنفاد';T.ar.fcHist='شهور كاملة متاحة';T.ar.fcMonthly='الاستهلاك الشهري';T.ar.fcs_ok='كافٍ';T.ar.fcs_low='منخفض';T.ar.fcs_short='ينفد قريبًا';T.ar.fcs_out='نافد';T.ar.fcs_expired='منتهي الصلاحية';T.ar.fcExpUnits='منتهي: {n}';T.ar.fcInsufficient='البيانات غير كافية للتنبؤ: يلزم 3 شهور كاملة على الأقل من الصرف المسجل، والمتاح {n}. يظهر الاستهلاك الفعلي فقط.';T.ar.fcCrit='المتوقع = متوسط مرجّح لآخر 3 شهور كاملة (الأحدث وزنه 3 ثم 2 ثم 1). الرقم بين قوسين = ما كان سيتوقعه النظام للشهر الماضي. الرصيد المتاح لا يشمل الدفعات منتهية الصلاحية. الكمية المقترحة = المتوقع + 20% احتياطي − الرصيد الصالح، بالعلب. تقدير إحصائي يراجعه الصيدلي أو الطبيب.';T.en.analytics='Advanced analytics';T.en.anRepeat='Repeat visits';T.en.anHeat='Department heatmap';T.en.anAbc='ABC analysis';T.en.anFc='Consumption forecast';T.en.anMed='Medicine';T.en.repCrit='Alert rule: "Alert" = same condition 3+ times within 90 days, or 4+ visits within 30 days. "Watch" = same condition twice, or 3 visits within 30 days. An alert is a prompt for medical review, not a diagnosis.';T.en.repNone='No repeat cases at the moment.';T.en.repAlert='Alert';T.en.repWatch='Watch';T.en.rep7='7 days';T.en.rep30='30 days';T.en.rep90='90 days';T.en.repCond='Repeated condition';T.en.repCondN='Times';T.en.repHistory='Visits linked to this condition';T.en.repSame='Same complaint recorded {n} time(s) in the last 90 days, doctor review advised';T.en.repFreq='Frequent visits: 7 days ({a}) · 30 days ({b}) · 90 days ({c})';T.en.hmDay='Daily (14 days)';T.en.hmWeek='Weekly (8 weeks)';T.en.hmMonth='Monthly (6 months)';T.en.allTypes='All types';T.en.allShifts='All shifts';T.en.hmTotal='Total';T.en.hmInj='Injuries';T.en.hmEmps='Employees';T.en.hmRate='Injuries per 100 employees';T.en.hmTop='Most injuries';T.en.hmCrit='Count = visits recorded for the department in the period shown. The shift is derived from visit time: morning 08:00-15:59, evening 16:00-23:59, night 00:00-07:59 (visits without a time are hidden when a shift is selected). Injury rate = department injuries / registered department employees x 100.';T.en.abcMonths='months';T.en.abcUnits='Quantity (units)';T.en.abcValue='Consumption value';T.en.abcShare='Share';T.en.abcCum='Cumulative';T.en.abcClass='Class';T.en.abcTotal='Total consumption value';T.en.abcWatch='Low stock';T.en.abcNoPrice='Some dispensing has no price';T.en.abcNoPriceN='{n} item(s) have dispensing with no recorded price, so their value is understated. Enter the box price in stock.';T.en.abcCrit='Value = quantity dispensed x unit price at dispensing time. A = items making up the first 80% of value, B = up to 95%, C = the rest. A guide for purchasing and counting priorities, not a replacement for the pharmacist\'s judgement.';T.en.fcTitle='Expected consumption for next month';T.en.fcActual='Last month (actual)';T.en.fcForecast='Forecast';T.en.fcStock='Stock';T.en.fcCover='Lasts (months)';T.en.fcOutDate='Expected stock-out';T.en.fcReorder='Suggested order';T.en.fcAtRisk='Items at risk of running out';T.en.fcHist='Complete months available';T.en.fcMonthly='Monthly consumption';T.en.fcs_ok='OK';T.en.fcs_low='Low';T.en.fcs_short='Running out';T.en.fcs_out='Out of stock';T.en.fcs_expired='Expired';T.en.fcExpUnits='expired: {n}';T.en.fcInsufficient='Not enough data to forecast: at least 3 full months of recorded dispensing are needed, {n} available. Only actual consumption is shown.';T.en.fcCrit='Forecast = weighted average of the last 3 complete months (latest weighs 3, then 2, then 1). The number in brackets = what the system would have forecast for last month. Available stock excludes expired batches. Suggested order = forecast + 20% buffer - usable stock, in boxes. A statistical estimate to be reviewed by the pharmacist or doctor.';T.ar.noExp='بدون تاريخ';T.en.noExp='No date';T.ar.wdLot='الدفعة (تاريخ الصلاحية)';T.en.wdLot='Batch (expiry)';
 T.ar.wdOlder='توجد دفعة أقدم صلاحية ({x}) لم تُسحب بعد. هل تريد السحب من هذه الدفعة؟';T.en.wdOlder='A batch with an earlier expiry ({x}) is still in stock. Withdraw from this batch anyway?';
 T.ar.wdYes='نعم، اسحب';T.en.wdYes='Yes, withdraw';T.ar.expMonth='تاريخ الصلاحية (شهر/سنة)';T.en.expMonth='Expiry (month/year)';
 T.ar.outerExp='صلاحية الدولاب الخارجي (شهر/سنة)';T.en.outerExp='Outer cabinet expiry (month/year)';
@@ -727,10 +738,10 @@ Object.assign(T.en,{
 
 Object.assign(T.ar,{procedures:'الإجراءات',proceduresPh:'مثال: تنظيف وتضميد الجرح، قياس الضغط، بخار...',users:'المستخدمون',uAdd:'إضافة حساب',uName:'الاسم',uPass:'كلمة المرور المؤقتة',uGen:'توليد',uCreate:'إنشاء الحساب',uCreated:'تم إنشاء الحساب. سلّم هذه البيانات للمستخدم:',
  uPending:'في انتظار التفعيل',uAll:'كل الحسابات',uSave:'حفظ',uSaved:'تم تحديث الحساب',role_pending:'معطّل',uNone:'لا توجد حسابات',uSelf:'أنت',uLast:'آخر دخول',uNever:'لم يدخل بعد',
- uNote:'صلاحية "إدارة" لا تصل لبيانات العيادة حاليًا. اختيار "معطّل" يمنع الحساب من بيانات العيادة.',uCopy:'نسخ البيانات',uCopied:'تم النسخ',uNeedAll:'اكتب الاسم والبريد وكلمة مرور 6 أحرف على الأقل',uLoading:'جاري تحميل الحسابات...',uSelfNote:'لا يمكن تغيير صلاحيتك أنت'});
+ uNote:'صلاحية "إدارة" تعرض بيانات العيادة للاطلاع فقط (بدون تعديل أو حذف). اختيار "معطّل" يمنع الحساب من بيانات العيادة.',uCopy:'نسخ البيانات',uCopied:'تم النسخ',uNeedAll:'اكتب الاسم والبريد وكلمة مرور 6 أحرف على الأقل',uLoading:'جاري تحميل الحسابات...',uSelfNote:'لا يمكن تغيير صلاحيتك أنت'});
 Object.assign(T.en,{procedures:'Procedures',proceduresPh:'e.g. wound cleaned and dressed, BP measured, nebulizer...',users:'Users',uAdd:'Add account',uName:'Name',uPass:'Temporary password',uGen:'Generate',uCreate:'Create account',uCreated:'Account created. Give these details to the user:',
  uPending:'Waiting for activation',uAll:'All accounts',uSave:'Save',uSaved:'Account updated',role_pending:'Disabled',uNone:'No accounts',uSelf:'You',uLast:'Last sign-in',uNever:'Never signed in',
- uNote:'The "Management" role cannot reach clinic data yet. "Disabled" blocks the account from clinic data.',uCopy:'Copy details',uCopied:'Copied',uNeedAll:'Enter name, email and a password of at least 6 characters',uLoading:'Loading accounts...',uSelfNote:'You cannot change your own role'});
+ uNote:'The "Management" role can view clinic data (read-only, no editing or deleting). "Disabled" blocks the account from clinic data.',uCopy:'Copy details',uCopied:'Copied',uNeedAll:'Enter name, email and a password of at least 6 characters',uLoading:'Loading accounts...',uSelfNote:'You cannot change your own role'});
 
 Object.assign(T.ar,{
  handNote:'قائمة أدوية التسليم والتسلم مستقلة تمامًا عن مخزن الأدوية. الأعداد تبدأ من آخر تسليم ويمكنك تعديلها قبل الحفظ.',noStockH:'أضف أدوية لقائمة التسليم من الأعلى لتظهر هنا',
@@ -1077,11 +1088,52 @@ function recalcApply(){
 function unitCost(s){var c=s.cost||0,pb=s.perBox||0;return pb>0?Math.round(c/pb*10000)/10000:c;}
 function totalUnits(s){return (s.qty||0)+(s.boxes||0)*(s.perBox||0);}
 function lowItems(){return S.stock.filter(function(s){return totalUnits(s)<=s.min;});}
+function mergePlan(){
+ var plan=[],tv=0,ts=0;
+ S.employees.forEach(function(e){
+  var g={};
+  S.visits.forEach(function(v){if(v.empRef===e.id&&v.empId){(g[v.empId]=g[v.empId]||{v:[],s:[]}).v.push(v);}});
+  S.screenings.forEach(function(r){if(r.empRef===e.id&&r.empId){(g[r.empId]=g[r.empId]||{v:[],s:[]}).s.push(r);}});
+  var ks=Object.keys(g);if(ks.length<2)return;
+  var keep=(e.empId&&g[e.empId])?e.empId:ks.sort(function(a,b){return (g[b].v.length+g[b].s.length)-(g[a].v.length+g[a].s.length);})[0];
+  ks.forEach(function(k){if(k===keep)return;plan.push({emp:e,code:k,v:g[k].v,s:g[k].s,keep:keep});tv+=g[k].v.length;ts+=g[k].s.length;});
+ });
+ return {items:plan,emps:plan.length,visits:tv,scr:ts};
+}
+function mergeApply(){
+ var pl=mergePlan(),made=0;
+ pl.items.forEach(function(it){
+  if(it.emp.id&&!it.emp.empId)it.emp.empId=it.keep;
+  var tgt=S.employees.filter(function(x){return x.empId===it.code&&x.id!==it.emp.id;})[0];
+  if(!tgt){
+   var last=it.v.slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'');})[0];
+   var nm=last?last.worker:(it.s[0]?it.s[0].worker:it.code);
+   tgt={id:uid(),name:nm,empId:it.code,dept:(last&&last.dept)||(it.s[0]&&it.s[0].dept)||'',job:'',phone:'',blood:'',allergies:'',chronic:'',notes:''};
+   S.employees.push(tgt);made++;
+  }
+  it.v.forEach(function(v){v.empRef=tgt.id;});
+  it.s.forEach(function(r){r.empRef=tgt.id;});
+ });
+ save('employees','visits','screenings');
+ return made;
+}
 function empVisits(e){return S.visits.filter(function(v){return v.empRef===e.id;});}
 function empMatch(name,empId){
  var n=(name||'').trim(),id=(empId||'').trim();
- return S.employees.filter(function(e){return (id&&e.empId&&e.empId===id)||e.name===n;})[0];
+ if(id){
+  var byId=S.employees.filter(function(e){return e.empId&&e.empId===id;})[0];
+  if(byId)return byId;
+  var legacy=S.employees.filter(function(e){return !e.empId&&e.name===n;});
+  return legacy.length===1?legacy[0]:undefined;
+ }
+ var same=S.employees.filter(function(e){return e.name===n;});
+ return same.length===1?same[0]:undefined;
 }
+function empAmbig(name,empId){
+ var n=(name||'').trim();if((empId||'').trim()||!n)return false;
+ return S.employees.filter(function(e){return e.name===n;}).length>1;
+}
+function empByCode(id){id=(id||'').trim();return id?S.employees.filter(function(e){return e.empId===id;})[0]:undefined;}
 
 /* ---------- monthly allowance ---------- */
 function monthLong(m){var p=m.split('-');return new Date(+p[0],+p[1]-1,1).toLocaleDateString(S.lang==='ar'?'ar-EG-u-nu-latn':'en-GB',{month:'long',year:'numeric'});}
@@ -1218,7 +1270,7 @@ function authView(){
 
 /* ---------- shell ---------- */
 function navItems(){return navAll().filter(function(it){return !(isViewer()&&(it[0]==='new'||it[0]==='lists'));});}
-function navAll(){return [['home','home',t('home')],['new','plus',t('newVisit')],['visits','clip',t('visits')],['followups','bell',t('followups')],['injuries','cross',t('injReport')],['allowance','pill',t('allowance')],['employees','users',t('employees')],['campaigns','pulse',t('campaigns')],['stock','box',t('stock')],['temps','temp',t('temps')],['requests','file',t('requests')],['handover','check',t('handover')],['dashboard','dash',t('dashboard')],['reports','chart',t('reports')],['lists','list',t('lists')]].concat(S.role==='admin'?[['users','shield',t('users')]]:[]).concat([['settings','cog',t('settings')]]);}
+function navAll(){return [['home','home',t('home')],['new','plus',t('newVisit')],['visits','clip',t('visits')],['followups','bell',t('followups')],['injuries','cross',t('injReport')],['allowance','pill',t('allowance')],['employees','users',t('employees')],['campaigns','pulse',t('campaigns')],['stock','box',t('stock')],['temps','temp',t('temps')],['requests','file',t('requests')],['handover','check',t('handover')],['dashboard','dash',t('dashboard')],['reports','chart',t('reports')],['analytics','dash',t('analytics')],['lists','list',t('lists')]].concat(S.role==='admin'?[['users','shield',t('users')]]:[]).concat([['settings','cog',t('settings')]]);}
 function curView(){return S.view==='employee'||S.view==='empForm'?'employees':S.view;}
 var NAV_GROUPS=[['secMain',['home','new','visits','followups','employees','injuries','allowance','campaigns']],['secServices',['stock','temps','requests','handover']],['secAdmin',['dashboard','reports','lists','users','settings']]];
 function avInner(){return S.photo?'<img src="'+esc(S.photo)+'" alt="">':esc(initials(S.user.name)||'؟');}
@@ -1466,8 +1518,15 @@ function selectField(list,key,label){
 }
 function empHint(){
  var d=S.draft;if(!d||!d.worker.trim())return '';
+ if(empAmbig(d.worker,d.empId))return t('empAmbig');
  var e=empMatch(d.worker,d.empId);
- return e?t('empKnown')+' '+empVisits(e).length:t('empNew');
+ if(e&&e.empId&&e.name!==d.worker.trim())return t('empByCode')+' '+e.name+' — '+t('empKnown')+' '+empVisits(e).length;
+ if(!e)return t('empNew');
+ var base=t('empKnown')+' '+empVisits(e).length,pv=empVisits(e).filter(function(v){return v.id!==S.editing;}),rs=repStat(pv);
+ var sim=d.complaint?pv.filter(function(v){var df=dayDiff(v.date,today());return df>=0&&df<90&&anSim(v.complaint,d.complaint)>=0.5;}).length:0;
+ if(sim>0)return base+' — ⚠ '+t('repSame').replace('{n}',sim);
+ if(rs.level)return base+' — ⚠ '+t('repFreq').replace('{a}',rs.c7).replace('{b}',rs.c30).replace('{c}',rs.c90);
+ return base;
 }
 function boolSeg(key,yes,no){var cur=!!S.draft[key];return '<div class="seg" role="group"><button type="button" data-act="setBool" data-k="'+key+'" data-v="1" aria-pressed="'+cur+'">'+esc(yes)+'</button><button type="button" data-act="setBool" data-k="'+key+'" data-v="0" aria-pressed="'+!cur+'">'+esc(no)+'</button></div>';}
 function newView(){
@@ -1481,7 +1540,7 @@ function newView(){
   var s=findStock(m.name),av=s?s.qty:0,over=m.qty>av;
   return '<div class="medrow"><span class="mn">'+esc(m.name)+'</span><div class="stepper"><button type="button" data-act="qtyMed" data-v="'+esc(m.name)+'" data-d="-1" aria-label="-">'+ic('minus')+'</button><b>'+m.qty+'</b><button type="button" data-act="qtyMed" data-v="'+esc(m.name)+'" data-d="1" aria-label="+">'+ic('plus')+'</button></div><span class="meta'+(over?' bad':'')+'">'+esc(t('available'))+': '+av+(s&&s.boxes>0?' · '+esc(t('inner'))+': '+s.boxes+' '+esc(t('boxWord')):'')+'</span></div>';}).join('');
  var mOpen=S.addOpen==='meds';
- var dl='<datalist id="emp-list">'+S.employees.map(function(e){return '<option value="'+esc(e.name)+'"></option>';}).join('')+'</datalist>';
+ var dl='<datalist id="emp-list">'+S.employees.map(function(e){return '<option value="'+esc(e.name)+'"'+(e.empId?' label="#'+esc(e.empId)+'"':'')+'></option>';}).join('')+'</datalist>';
  var vt=d.vitals||(d.vitals={});
  function vin(k,lbl,ph,step){return field('f-v-'+k,lbl,'<input type="number" id="f-v-'+k+'" data-f="vitals.'+k+'" value="'+esc(vt[k]===undefined?'':vt[k])+'" inputmode="decimal" step="'+(step||'1')+'" placeholder="'+esc(ph)+'" dir="ltr" style="text-align:start">');}
  var vitals='<div class="field full"><span class="lbl">'+esc(t('vitals'))+'</span><div class="g3">'+vin('sys',t('v_sys'),'120')+vin('dia',t('v_dia'),'80')+vin('pulse',t('v_pulse'),'75')+vin('temp',t('v_temp'),'37','0.1')+vin('resp',t('v_resp'),'16')+vin('spo2',t('v_spo2'),'98')+'</div><small class="bad" id="vit-flags">'+esc(vitWarn(vt))+'</small></div>';
@@ -1843,6 +1902,181 @@ function repData(){
   trend.push([monthLabel(key),S.visits.filter(function(x){return x.date.slice(0,7)===key;}).length]);}
  return {vs:vs,bt:bt,depts:sorted(bd),meds:sorted(bm).slice(0,8),trend:trend};
 }
+/* ---------- advanced analytics (read-only, computed from existing records) ---------- */
+var anExport={name:'analytics',rows:[]};
+function anNorm(s){return String(s||'').toLowerCase().replace(/[ً-ٰٟ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[^؀-ۿa-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();}
+function anSim(a,b){
+ a=anNorm(a);b=anNorm(b);if(!a||!b)return 0;if(a===b)return 1;
+ var SW=' في من على علي عن الي الى مع شديد شديده خفيف خفيفه بسيط بسيطه حاد حاده ',kp=function(w){return w.length>1&&SW.indexOf(' '+w+' ')<0;};
+ var ta=a.split(' ').filter(kp),tb=b.split(' ').filter(kp);
+ if(!ta.length||!tb.length)return 0;
+ var inter=ta.filter(function(w){return tb.indexOf(w)>-1;}).length;
+ return inter/(ta.length+tb.length-inter);
+}
+function dayDiff(a,b){return Math.round((new Date(b+'T00:00:00')-new Date(a+'T00:00:00'))/864e5);}
+function shiftOf(time){if(!time)return '';var h=parseInt(String(time).slice(0,2),10);if(isNaN(h))return '';return h>=8&&h<16?'morning':h>=16?'evening':'night';}
+function sameCond(w,v){return !!((anNorm(v.complaint)&&anSim(w.complaint,v.complaint)>=0.5)||(anNorm(v.diagnosis)&&anNorm(w.diagnosis)===anNorm(v.diagnosis)));}
+function repStat(list){
+ var td=today(),c7=0,c30=0,c90=0;
+ var rec=list.filter(function(v){var d=dayDiff(v.date,td);return d>=0&&d<90;}).sort(byDT);
+ rec.forEach(function(v){var d=dayDiff(v.date,td);if(d<7)c7++;if(d<30)c30++;c90++;});
+ var best={n:0,label:'',items:[]};
+ rec.forEach(function(v){
+  if(!anNorm(v.complaint)&&!anNorm(v.diagnosis))return;
+  var items=rec.filter(function(w){return sameCond(w,v);});
+  if(items.length>best.n)best={n:items.length,label:v.complaint||v.diagnosis,items:items};
+ });
+ var level=(best.n>=3||c30>=4)?'alert':(best.n>=2||c30>=3)?'watch':'';
+ return {c7:c7,c30:c30,c90:c90,best:best,level:level,last:rec[0]||null};
+}
+function anChip(k,v,lb,cur){return '<button type="button" class="chip" data-act="anSet" data-k="'+k+'" data-v="'+v+'" aria-pressed="'+(cur===v)+'">'+esc(lb)+'</button>';}
+function anBtns(){return '<div class="actions"><button class="btn ghost" data-act="xlsxAn">'+ic('dl')+'<span>'+esc(t('exportXlsx'))+'</span></button><button class="btn ghost" data-act="printAn">'+ic('print')+'<span>'+esc(t('exportPdf'))+'</span></button></div>';}
+function aoaHtml(rows){return '<table>'+rows.map(function(r,i){return '<tr>'+r.map(function(c){return '<'+(i?'td':'th')+'>'+esc(c==null?'':c)+'</'+(i?'td':'th')+'>';}).join('')+'</tr>';}).join('')+'</table>';}
+function stockBoxesText(s){if(!s)return '-';return s.perBox>0?fm(totalUnits(s)/s.perBox)+' '+t('boxWord'):totalUnits(s)+' '+(s.unit||'');}
+
+/* --- 1. repeat visits --- */
+function repRows(){
+ var g={};S.visits.forEach(function(v){var k=v.empRef||('n:'+v.worker);(g[k]=g[k]||[]).push(v);});
+ var out=[];
+ Object.keys(g).forEach(function(k){
+  var st=repStat(g[k]);if(!st.level)return;
+  var f=g[k][0],e=f.empRef?S.employees.filter(function(x){return x.id===f.empRef;})[0]:null;
+  out.push({key:k,ref:e?e.id:'',name:e?e.name:f.worker,empId:e?e.empId:f.empId,dept:(st.last&&st.last.dept)||f.dept||'',st:st});
+ });
+ return out.sort(function(a,b){return (b.st.level==='alert')-(a.st.level==='alert')||b.st.best.n-a.st.best.n||b.st.c30-a.st.c30;});
+}
+function anRepeat(){
+ var rows=repRows(),na=rows.filter(function(r){return r.st.level==='alert';}).length;
+ anExport={name:'repeat-visits-'+today(),rows:[[t('worker'),t('empId'),t('dept'),t('rep7'),t('rep30'),t('rep90'),t('repCond'),t('repCondN'),t('status')]].concat(rows.map(function(r){return [r.name,r.empId,r.dept,r.st.c7,r.st.c30,r.st.c90,r.st.best.label,r.st.best.n,t(r.st.level==='alert'?'repAlert':'repWatch')];}))};
+ var cards=rows.map(function(r){
+  var s=r.st,hist=s.best.items.map(function(v){return '<div class="kv"><span>'+esc(fmt(v.date))+'</span><span>'+esc([v.complaint,v.diagnosis].filter(Boolean).join(' — '))+'</span></div>';}).join('');
+  return '<article class="item"><div class="head"><div style="min-width:0"><h3>'+esc(r.name)+(r.empId?' <small>#'+esc(r.empId)+'</small>':'')+'</h3><div class="meta">'+(r.dept?'<span>'+esc(r.dept)+'</span>':'')+'<span>'+esc(t('rep7'))+': '+s.c7+'</span><span>'+esc(t('rep30'))+': '+s.c30+'</span><span>'+esc(t('rep90'))+': '+s.c90+'</span></div></div>'+
+   '<span class="cls '+(s.level==='alert'?'A':'B')+'">'+esc(t(s.level==='alert'?'repAlert':'repWatch'))+'</span></div>'+
+   (s.best.n>1?'<p class="meta" style="margin:8px 0 0">'+esc(t('repCond'))+': <b>'+esc(s.best.label)+'</b> × '+s.best.n+'</p>':'')+
+   '<details style="margin-top:8px"><summary>'+esc(t('repHistory'))+'</summary>'+hist+'</details>'+
+   (r.ref?'<div class="actions"><button class="btn ghost sm" data-act="openEmp" data-id="'+esc(r.ref)+'">'+esc(t('empFile'))+'</button></div>':'')+'</article>';}).join('');
+ return '<section class="stats"><div class="stat"><b>'+na+'</b><span>'+esc(t('repAlert'))+'</span></div><div class="stat"><b>'+(rows.length-na)+'</b><span>'+esc(t('repWatch'))+'</span></div></section>'+
+  '<p class="meta">'+esc(t('repCrit'))+'</p>'+
+  '<div class="items cols">'+(rows.length?cards:'<div class="empty">'+esc(t('repNone'))+'</div>')+'</div>'+(rows.length?anBtns():'');
+}
+
+/* --- 2. department heatmap --- */
+function hmCols(g){
+ var cols=[],i,m;
+ if(g==='day'){for(i=13;i>=0;i--){var d=shift(-i);cols.push({from:d,to:d,label:d.slice(5)});}}
+ else if(g==='week'){for(i=7;i>=0;i--){var to=shift(-i*7);cols.push({from:addD(to,-6),to:to,label:addD(to,-6).slice(5)});}}
+ else{var arr=[];m=today().slice(0,7);for(i=0;i<6;i++){arr.unshift(m);m=prevMonth(m);}arr.forEach(function(k){cols.push({from:k+'-01',to:ymEnd(k),label:k.slice(2)});});}
+ return cols;
+}
+function anHeat(){
+ var a=S.an,cols=hmCols(a.gran),lo=cols[0].from,hi=cols[cols.length-1].to;
+ var vs=S.visits.filter(function(v){
+  if(v.date<lo||v.date>hi)return false;
+  if(a.type!=='all'&&(v.type||'checkup')!==a.type)return false;
+  if(a.shift!=='all'&&shiftOf(v.time)!==a.shift)return false;
+  return true;});
+ var names={};S.lists.depts.forEach(function(n){names[n]=1;});vs.forEach(function(v){if(v.dept)names[v.dept]=1;});
+ var rows=Object.keys(names).map(function(n){
+  var cnt=cols.map(function(c){return vs.filter(function(v){return v.dept===n&&v.date>=c.from&&v.date<=c.to;}).length;});
+  var tot=cnt.reduce(function(x,y){return x+y;},0);
+  var inj=vs.filter(function(v){return v.dept===n&&(v.type||'checkup')==='injury';}).length;
+  var emps=S.employees.filter(function(e){return e.dept===n;}).length;
+  return {name:n,cnt:cnt,tot:tot,inj:inj,emps:emps,rate:emps>0?Math.round(inj/emps*1000)/10:null};
+ }).filter(function(r){return r.tot>0;}).sort(function(x,y){return y.inj-x.inj||y.tot-x.tot;});
+ var max=Math.max.apply(null,[1].concat(rows.map(function(r){return Math.max.apply(null,r.cnt);})));
+ var head=[t('dept')].concat(cols.map(function(c){return c.label;}),[t('hmTotal'),t('hmInj'),t('hmEmps'),t('hmRate')]);
+ anExport={name:'heatmap-'+a.gran+'-'+today(),rows:[head].concat(rows.map(function(r){return [r.name].concat(r.cnt,[r.tot,r.inj,r.emps,r.rate==null?'':r.rate]);}))};
+ var top=rows.length&&rows[0].inj>0?rows[0]:null;
+ function chips(k,list,cur){return list.map(function(x){return anChip(k,x[0],x[1],cur);}).join('');}
+ var table=rows.length?'<div class="anscroll"><table class="hm"><thead><tr><th></th>'+cols.map(function(c){return '<th>'+esc(c.label)+'</th>';}).join('')+'<th>'+esc(t('hmTotal'))+'</th><th>'+esc(t('hmInj'))+'</th><th>'+esc(t('hmRate'))+'</th></tr></thead><tbody>'+
+  rows.map(function(r){return '<tr><td class="l">'+esc(r.name)+'</td>'+r.cnt.map(function(n){var p=Math.round(n/max*85);return '<td'+(n?' style="background:color-mix(in srgb,var(--c-inj) '+p+'%,var(--surface))'+(p>55?';color:#fff':'')+'"':' class="z"')+'>'+(n||'')+'</td>';}).join('')+'<td><b>'+r.tot+'</b></td><td><b>'+r.inj+'</b></td><td dir="ltr">'+(r.rate==null?'-':r.rate)+'</td></tr>';}).join('')+'</tbody></table></div>':'<div class="empty">'+esc(t('noData'))+'</div>';
+ return '<div class="chips" style="margin-bottom:8px">'+chips('gran',[['day',t('hmDay')],['week',t('hmWeek')],['month',t('hmMonth')]],a.gran)+'</div>'+
+  '<div class="chips" style="margin-bottom:8px">'+chips('type',[['all',t('allTypes')],['injury',t('injury')],['sick',t('sick')],['checkup',t('checkup')]],a.type)+'</div>'+
+  '<div class="chips" style="margin-bottom:14px">'+chips('shift',[['all',t('allShifts')],['morning',t('morning')],['evening',t('evening')],['night',t('night')]],a.shift)+'</div>'+
+  (top?'<section class="stats"><div class="stat"><b>'+esc(top.name)+'</b><span>'+esc(t('hmTop'))+' ('+top.inj+')</span></div><div class="stat"><b>'+vs.length+'</b><span>'+esc(t('visits'))+'</span></div></section>':'')+
+  '<section class="card">'+table+'</section><p class="meta">'+esc(t('hmCrit'))+'</p>'+(rows.length?anBtns():'');
+}
+
+/* --- consumption data from visits (units dispensed) --- */
+function consData(){
+ var cons={},first='';
+ S.visits.forEach(function(v){
+  var mk=(v.date||'').slice(0,7);if(!mk)return;
+  var has=false;
+  (v.meds||[]).forEach(function(m){var q=+m.qty||0;if(!q)return;has=true;var o=cons[m.name]||(cons[m.name]={});var r=o[mk]||(o[mk]={u:0,val:0});r.u+=q;r.val+=q*(+m.cost||0);});
+  if(has&&(!first||mk<first))first=mk;
+ });
+ var cm=today().slice(0,7),hist=0;
+ if(first){var x=first;while(x<cm){hist++;x=nextMonth(x);}}
+ return {cons:cons,first:first,hist:hist};
+}
+function nextMonth(m){var p=m.split('-');return monthKey(new Date(+p[0],+p[1],1));}
+function monthsBackList(n){var out=[],m=prevMonth(today().slice(0,7));for(var i=0;i<n;i++){out.unshift(m);m=prevMonth(m);}return out;}
+
+/* --- 3. ABC analysis --- */
+function anAbc(){
+ var a=S.an,n=+a.months||6,from=addD(today(),-30*n),agg={};
+ S.visits.forEach(function(v){if(v.date<from)return;(v.meds||[]).forEach(function(m){var q=+m.qty||0;if(!q)return;var o=agg[m.name]||(agg[m.name]={name:m.name,u:0,val:0,nop:0});o.u+=q;o.val+=q*(+m.cost||0);if(!(+m.cost>0))o.nop++;});});
+ var list=Object.keys(agg).map(function(k){return agg[k];}).sort(function(x,y){return y.val-x.val||y.u-x.u;});
+ var total=list.reduce(function(s,x){return s+x.val;},0),cum=0;
+ list.forEach(function(x,i){var before=cum;cum+=x.val;x.share=total>0?x.val/total*100:0;x.cum=total>0?cum/total*100:0;x.cls=total<=0||x.val<=0?'C':(i===0||before/total*100<80)?'A':(before/total*100<95)?'B':'C';var s=findStock(x.name);x.stock=s;x.watch=x.cls==='A'&&s&&totalUnits(s)<=s.min;});
+ var nA=list.filter(function(x){return x.cls==='A';}).length,nB=list.filter(function(x){return x.cls==='B';}).length,nC=list.length-nA-nB,noP=list.filter(function(x){return x.nop>0;}).length;
+ anExport={name:'abc-'+n+'m-'+today(),rows:[['#',t('anMed'),t('abcUnits'),t('abcValue'),t('abcShare'),t('abcCum'),t('abcClass'),t('fcStock')]].concat(list.map(function(x,i){return [i+1,x.name,x.u,Math.round(x.val*100)/100,Math.round(x.share*10)/10,Math.round(x.cum*10)/10,x.cls,stockBoxesText(x.stock)];}))};
+ var tr=list.map(function(x,i){return '<tr><td>'+(i+1)+'</td><td>'+esc(x.name)+(x.nop?' <small title="'+esc(t('abcNoPrice'))+'">⚠</small>':'')+'</td><td>'+x.u+'</td><td>'+fm(x.val)+'</td><td dir="ltr">'+fm(x.share)+'%</td><td dir="ltr">'+fm(x.cum)+'%</td><td><span class="cls '+x.cls+'">'+x.cls+'</span></td><td>'+esc(stockBoxesText(x.stock))+(x.watch?' <b class="bad">⚠ '+esc(t('abcWatch'))+'</b>':'')+'</td></tr>';}).join('');
+ return '<div class="chips" style="margin-bottom:14px">'+[3,6,12].map(function(m){return anChip('months',String(m),m+' '+t('abcMonths'),String(n));}).join('')+'</div>'+
+  '<section class="stats"><div class="stat"><b>'+fm(total)+'</b><span>'+esc(t('abcTotal'))+' ('+esc(t('cur'))+')</span></div><div class="stat"><b>'+nA+' / '+nB+' / '+nC+'</b><span>A / B / C</span></div></section>'+
+  (noP?'<div class="alert"><span>'+esc(t('abcNoPriceN').replace('{n}',noP))+'</span></div>':'')+
+  '<section class="card">'+(list.length?'<div class="anscroll"><table class="hm abc"><thead><tr><th>#</th><th>'+esc(t('anMed'))+'</th><th>'+esc(t('abcUnits'))+'</th><th>'+esc(t('abcValue'))+'</th><th>'+esc(t('abcShare'))+'</th><th>'+esc(t('abcCum'))+'</th><th>'+esc(t('abcClass'))+'</th><th>'+esc(t('fcStock'))+'</th></tr></thead><tbody>'+tr+'</tbody></table></div>':'<div class="empty">'+esc(t('noData'))+'</div>')+'</section>'+
+  '<p class="meta">'+esc(t('abcCrit'))+'</p>'+(list.length?anBtns():'');
+}
+
+/* --- 4. consumption forecast --- */
+function expiredUnits(s){
+ var n=0,td=today();
+ stockLots(s).forEach(function(l){if(ymEnd(l.exp)<td)n+=l.outer?(l.qty||0):(l.boxes||0)*(s.perBox||0);});
+ return n;
+}
+function fcCalc(cons,months){ // weighted moving average over the last 3 months given
+ var w=[3,2,1],num=0,den=0;
+ months.slice().reverse().slice(0,3).forEach(function(m,i){num+=((cons[m]||{}).u||0)*w[i];den+=w[i];});
+ return den?num/den:0;
+}
+function anFc(){
+ var cd=consData(),ok=cd.hist>=3,last6=monthsBackList(6),lastM=last6[last6.length-1],td=today();
+ var rows=[];
+ S.stock.forEach(function(s){
+  var c=cd.cons[s.name]||{};
+  var actual=(c[lastM]||{}).u||0,fc=ok?fcCalc(c,last6):null;
+  var back=cd.hist>=4?fcCalc(c,last6.slice(0,5)):null;
+  var tot=totalUnits(s),exp=expiredUnits(s),use=Math.max(0,tot-exp);
+  var cover=(fc>0)?use/fc:null;
+  var st=(tot>0&&exp>=tot)?'expired':use<=0?'out':(cover!=null&&cover<1)?'short':(cover!=null&&cover<2)?'low':'ok';
+  var need=fc>0?fc*1.2-use:0,pb=s.perBox||0;
+  var re=need>0?(pb>0?Math.ceil(need/pb):Math.ceil(need)):0;
+  var hasHist=Object.keys(c).length>0;
+  if(!hasHist&&st==='ok')return;
+  if(ok&&!(fc>0)&&actual===0&&st==='ok'&&!tot)return;
+  rows.push({s:s,name:s.name,actual:actual,fc:fc,back:back,tot:tot,exp:exp,cover:cover,st:st,re:re,pb:pb,out:(cover!=null&&cover<6)?addD(td,Math.round(cover*30)):''});
+ });
+ var ord={expired:0,out:1,short:2,low:3,ok:4};
+ rows.sort(function(x,y){return ord[x.st]-ord[y.st]||((x.cover==null?99:x.cover)-(y.cover==null?99:y.cover));});
+ var mon=last6.concat([td.slice(0,7)]),mt=mon.map(function(m){var u=0,v=0;Object.keys(cd.cons).forEach(function(k){var r=cd.cons[k][m];if(r){u+=r.u;v+=r.val;}});return {m:m,u:u,v:v};});
+ anExport={name:'forecast-'+today(),rows:[[t('anMed'),t('fcActual'),t('fcForecast'),t('fcStock'),t('fcCover'),t('fcOutDate'),t('fcReorder'),t('status')]].concat(rows.map(function(r){return [r.name,r.actual,r.fc==null?'':Math.round(r.fc),stockBoxesText(r.s),r.cover==null?'':Math.round(r.cover*10)/10,r.out,r.re?(r.re+' '+(r.pb>0?t('boxWord'):(r.s.unit||''))):'',t('fcs_'+r.st)];})).concat([[''],[t('fcMonthly')],[t('date'),t('abcUnits'),t('abcValue')]],mt.map(function(x){return [x.m,x.u,Math.round(x.v*100)/100];}))};
+ var nShort=rows.filter(function(r){return r.st==='short'||r.st==='out'||r.st==='expired';}).length;
+ var tr=rows.map(function(r){return '<tr><td>'+esc(r.name)+'</td><td>'+r.actual+(r.back!=null?' <small dir="ltr">('+Math.round(r.back)+')</small>':'')+'</td><td>'+(r.fc==null?'-':Math.round(r.fc))+'</td><td>'+esc(stockBoxesText(r.s))+(r.exp>0?' <small class="bad">'+esc(t('fcExpUnits').replace('{n}',r.exp))+'</small>':'')+'</td><td dir="ltr">'+(r.cover==null?'-':fm(Math.round(r.cover*10)/10))+'</td><td>'+(r.out?esc(fmt(r.out)):'-')+'</td><td>'+(r.re?'<b>'+r.re+'</b> '+esc(r.pb>0?t('boxWord'):(r.s.unit||'')):'-')+'</td><td><span class="cls '+(r.st==='ok'?'C':r.st==='low'?'B':'A')+'">'+esc(t('fcs_'+r.st))+'</span></td></tr>';}).join('');
+ var mtr=mt.map(function(x){return '<tr><td dir="ltr">'+x.m+(x.m===td.slice(0,7)?' *':'')+'</td><td>'+x.u+'</td><td>'+fm(x.v)+'</td></tr>';}).join('');
+ return (ok?'':'<div class="alert danger"><span>'+esc(t('fcInsufficient').replace('{n}',cd.hist))+'</span></div>')+
+  '<section class="stats"><div class="stat"><b>'+nShort+'</b><span>'+esc(t('fcAtRisk'))+'</span></div><div class="stat"><b>'+cd.hist+'</b><span>'+esc(t('fcHist'))+'</span></div></section>'+
+  '<section class="card"><h2>'+esc(t('fcTitle'))+'</h2>'+(rows.length?'<div class="anscroll"><table class="hm abc"><thead><tr><th>'+esc(t('anMed'))+'</th><th>'+esc(t('fcActual'))+'</th><th>'+esc(t('fcForecast'))+'</th><th>'+esc(t('fcStock'))+'</th><th>'+esc(t('fcCover'))+'</th><th>'+esc(t('fcOutDate'))+'</th><th>'+esc(t('fcReorder'))+'</th><th>'+esc(t('status'))+'</th></tr></thead><tbody>'+tr+'</tbody></table></div>':'<div class="empty">'+esc(t('noData'))+'</div>')+'</section>'+
+  '<section class="card"><h2>'+esc(t('fcMonthly'))+'</h2><div class="anscroll"><table class="hm abc"><thead><tr><th>'+esc(t('date'))+'</th><th>'+esc(t('abcUnits'))+'</th><th>'+esc(t('abcValue'))+'</th></tr></thead><tbody>'+mtr+'</tbody></table></div></section>'+
+  '<p class="meta">'+esc(t('fcCrit'))+'</p>'+(rows.length?anBtns():'');
+}
+function anView(){
+ var a=S.an,tabs=[['repeat',t('anRepeat')],['heat',t('anHeat')],['abc',t('anAbc')],['fc',t('anFc')]];
+ var tb='<div class="chips" style="margin-bottom:14px">'+tabs.map(function(x){return '<button type="button" class="chip" data-act="anTab" data-v="'+x[0]+'" aria-pressed="'+(a.tab===x[0])+'">'+esc(x[1])+'</button>';}).join('')+'</div>';
+ var body=a.tab==='heat'?anHeat():a.tab==='abc'?anAbc():a.tab==='fc'?anFc():anRepeat();
+ return '<div class="ph"><h2>'+esc(t('analytics'))+'</h2></div>'+tb+body;
+}
 function reportsView(){
  var r=repData();
  var types=[[t('injury'),r.bt.injury,'var(--c-inj)'],[t('sick'),r.bt.sick,'var(--c-sick)'],[t('checkup'),r.bt.checkup,'var(--c-chk)']];
@@ -1892,7 +2126,7 @@ function settingsView(){
   '<div class="err" id="pass-err"></div><div><button class="btn" type="submit">'+esc(t('updatePass'))+'</button></div></form>'+
  '<section class="card" style="display:flex;flex-direction:column;gap:12px"><h2 style="margin:0">'+esc(t('installApp'))+'</h2><p class="meta" style="margin:0">'+esc(isStandalone()?t('installed'):t('installHint'))+'</p>'+(!isStandalone()&&location.protocol!=='https:'&&location.hostname!=='localhost'?'<p class="meta bad" style="margin:0">'+esc(t('installNeedHttps'))+'</p>':'')+(deferredInstall&&!isStandalone()?'<div><button class="btn" data-act="install">'+esc(t('installBtn'))+'</button></div>':'')+'</section>'+
  '<section class="card" style="display:flex;flex-direction:column;gap:12px"><h2 style="margin:0">'+esc(t('data'))+'</h2><p class="meta" style="margin:0">'+esc(t('dataNote'))+'</p>'+
-  (S.role==='admin'?'<div class="actions"><button class="btn ghost" data-act="recalcCost">'+esc(t('recalcBtn'))+'</button></div><p class="meta" style="margin:0">'+esc(t('recalcNote'))+'</p>':'')+'<div class="actions"><button class="btn ghost" data-act="resetPrefs">'+esc(t('resetPrefs'))+'</button><button class="btn ghost" data-act="logout">'+ic('logout')+'<span>'+esc(t('logout'))+'</span></button></div></section>';
+  (S.role==='admin'?'<div class="actions"><button class="btn ghost" data-act="recalcCost">'+esc(t('recalcBtn'))+'</button></div><p class="meta" style="margin:0">'+esc(t('recalcNote'))+'</p><div class="actions"><button class="btn ghost" data-act="fixMerge">'+esc(t('fixBtn'))+'</button></div><p class="meta" style="margin:0">'+esc(t('fixNote'))+'</p>':'')+'<div class="actions"><button class="btn ghost" data-act="resetPrefs">'+esc(t('resetPrefs'))+'</button><button class="btn ghost" data-act="logout">'+ic('logout')+'<span>'+esc(t('logout'))+'</span></button></div></section>';
 }
 
 /* ---------- helpers: numbers ---------- */
@@ -2215,6 +2449,7 @@ function submitScreening(force){
  if(isSet(d.sys)!==isSet(d.dia)){er.textContent=t('needBoth');return;}
  var bad=(isSet(d.sys)&&(+d.sys<50||+d.sys>300||+d.dia<30||+d.dia>200||+d.dia>=+d.sys))||(isSet(d.sugar)&&(+d.sugar<20||+d.sugar>800))||(isSet(d.pulse)&&(+d.pulse<20||+d.pulse>250));
  if(bad){er.textContent=t('badValue');return;}
+ if(empAmbig(d.name,d.id)){er.textContent=t('empAmbig');return;}
  var e=empMatch(d.name,d.id);
  var dup=e?S.screenings.filter(function(x){return x.cid===c.id&&x.empRef===e.id;})[0]:null;
  if(dup&&!force){ask(t('scDup'),t('replace'),function(){submitScreening(true);});return;}
@@ -2276,7 +2511,7 @@ function campaignView(c){
  var dopts='<option value="">'+esc(t('choose'))+'</option>'+S.lists.depts.map(function(n){return '<option value="'+esc(n)+'"'+(d.dept===n?' selected':'')+'>'+esc(n)+'</option>';}).join('');
  var conds=CDS.map(function(k){return '<label class="cb"><input type="checkbox" data-cond="'+k+'"'+(d.conds.indexOf(k)>-1?' checked':'')+'><span>'+esc(t('cd_'+k))+'</span></label>';}).join('');
  var form='<form data-form="scr" class="card"><h2>'+esc(t('scForm'))+'</h2><div class="grid2">'+
-  '<div class="field"><label for="s-name">'+esc(t('worker'))+' *</label><input type="text" id="s-name" data-sc="name" list="emp-list2" autocomplete="off" value="'+esc(d.name)+'" placeholder="'+esc(t('workerPh'))+'"><datalist id="emp-list2">'+S.employees.map(function(e){return '<option value="'+esc(e.name)+'"></option>';}).join('')+'</datalist><small id="s-hint">'+esc(scHintText())+'</small></div>'+
+  '<div class="field"><label for="s-name">'+esc(t('worker'))+' *</label><input type="text" id="s-name" data-sc="name" list="emp-list2" autocomplete="off" value="'+esc(d.name)+'" placeholder="'+esc(t('workerPh'))+'"><datalist id="emp-list2">'+S.employees.map(function(e){return '<option value="'+esc(e.name)+'"'+(e.empId?' label="#'+esc(e.empId)+'"':'')+'></option>';}).join('')+'</datalist><small id="s-hint">'+esc(scHintText())+'</small></div>'+
   field('s-id',t('empId'),'<input type="text" id="s-id" data-sc="id" value="'+esc(d.id)+'" inputmode="numeric" dir="ltr" style="text-align:start">')+
   field('s-dept',t('dept'),'<select id="s-dept" data-sc="dept">'+dopts+'</select>')+
   '<div class="field full"><span class="lbl">'+esc(t('v_bp'))+'</span><div class="g3">'+sci('sys',t('v_sys'))+sci('dia',t('v_dia'))+sci('pulse',t('v_pulse'))+'</div></div>'+
@@ -2420,7 +2655,7 @@ function render(){
  if(S.loadErr&&!S.loaded){app.innerHTML=stateView(t('loadFail')+': '+S.loadErr,true);return;}
  if(!isTeam()){app.innerHTML=stateView(t('noAccess'),false);return;}
  navSync();
- var V={home:homeView,new:newView,visits:visitsView,employees:employeesView,employee:employeeView,empForm:empFormView,stock:stockView,requests:reqView,handover:handoverView,reports:reportsView,lists:listsView,settings:settingsView,followups:followupsView,injuries:ijView,allowance:alView,temps:tempsView,dashboard:dashboardView,campaigns:campaignsView,users:usersView};
+ var V={home:homeView,new:newView,visits:visitsView,employees:employeesView,employee:employeeView,empForm:empFormView,stock:stockView,requests:reqView,handover:handoverView,reports:reportsView,analytics:anView,lists:listsView,settings:settingsView,followups:followupsView,injuries:ijView,allowance:alView,temps:tempsView,dashboard:dashboardView,campaigns:campaignsView,users:usersView};
  var inner=(V[S.view]||homeView)();
  app.innerHTML=shell(inner);
  window.scrollTo(0,y);
@@ -2452,7 +2687,9 @@ function submitVisit(force){
  var d=S.draft;
  if(!d.worker.trim()||!d.dept||!d.officer){S.err=t('req');var er=document.getElementById('form-err');if(er)er.textContent=S.err;return;}
  d.worker=d.worker.trim();d.empId=(d.empId||'').trim();
+ if(empAmbig(d.worker,d.empId)){S.err=t('empAmbig');var er2=document.getElementById('form-err');if(er2)er2.textContent=S.err;return;}
  var e=empMatch(d.worker,d.empId);
+ if(e&&d.empId&&e.empId===d.empId)d.worker=e.name;
  if(!force){
   var hits=allergyHits(e,d.meds),exm=d.meds.filter(function(m){var q=findStock(m.name);return q&&expState(q)==='expired';});
   var lim=allowInfo(d),overLim=!!(lim&&lim.total>lim.limit);
@@ -2516,6 +2753,11 @@ function act(a,p){
  else if(a==='setlang'){S.lang=v;save('lang');render();}
  else if(a==='theme'){S.theme=v;save('theme');render();}
  else if(a==='fs'||a==='dense'||a==='calm'||a==='start'){S[a]=v;save(a);applyEnv();render();}
+ else if(a==='anTab'){S.an.tab=v;render();}
+ else if(a==='anSet'){S.an[p.k]=v;render();}
+ else if(a==='xlsxAn'){exportXlsx(anExport.name,[[t('analytics'),anExport.rows]]);}
+ else if(a==='printAn'){printDoc(docHead(t('analytics'))+aoaHtml(anExport.rows),t('analytics'));}
+ else if(a==='fixMerge'){var mp=mergePlan();if(!mp.emps){toast(t('fixNone'));return;}ask(t('fixAsk').replace('{e}',mp.emps).replace('{v}',mp.visits).replace('{s}',mp.scr),t('fixYes'),function(){var n=mergeApply();render();toast(t('fixDone').replace('{e}',n));});}
  else if(a==='recalcCost'){var pl=recalcPlan();if(!pl.meds){toast(t('recalcNone'));return;}ask(t('recalcAsk').replace('{v}',pl.visits).replace('{m}',pl.meds),t('recalcYes'),function(){recalcApply();render();toast(t('recalcDone').replace('{v}',pl.visits));});}
  else if(a==='photoDel'){S.photo='';try{localStorage.removeItem('fc_photo_'+S.user.id);}catch(e){}render();toast(t('photoGone'));}
  else if(a==='resetPrefs'){S.fs='md';S.dense='0';S.calm='0';S.start='home';S.theme='system';S.palette='green';S.ui='pro';save('fs','dense','calm','start','theme','palette','ui');applyEnv();render();toast(t('resetDone'));}
@@ -2700,7 +2942,7 @@ document.addEventListener('input',function(ev){
    S.draft.returnDate=(ld>0&&S.draft.date)?addD(S.draft.date,ld):'';
    var rdI=document.getElementById('f-returnDate');if(rdI)rdI.value=S.draft.returnDate;
   }
-  if(f==='worker'||f==='empId'){var h=document.getElementById('emp-hint');if(h)h.textContent=empHint();var ab0=document.getElementById('allergy-box');if(ab0)ab0.innerHTML=allergyBox();}
+  if(f==='worker'||f==='empId'||f==='complaint'){var h=document.getElementById('emp-hint');if(h)h.textContent=empHint();var ab0=document.getElementById('allergy-box');if(ab0)ab0.innerHTML=allergyBox();}
   if(f==='worker'||f==='empId'||f==='date'){var al0=document.getElementById('allow-box');if(al0)al0.innerHTML=allowBox();}
  }
  if(fl){
@@ -2714,6 +2956,19 @@ document.addEventListener('change',function(ev){
  if(el.getAttribute('data-photo')){pickPhoto(el);return;}
  if(el.getAttribute('data-al')){S.al.period=el.value;render();return;}
  if(el.getAttribute('data-ij')){S.ij[el.getAttribute('data-ij')]=el.value;render();return;}
+ if(el.getAttribute('data-sc')==='id'&&S.scDraft){
+  var ec=empByCode(el.value);
+  if(ec){S.scDraft.name=ec.name;var sn=document.getElementById('s-name');if(sn)sn.value=ec.name;
+   if(!S.scDraft.dept&&ec.dept){S.scDraft.dept=ec.dept;var sd=document.getElementById('s-dept');if(sd)sd.value=ec.dept;}
+   if(!S.scDraft.conds.length){S.scDraft.conds=knownConds(ec);document.querySelectorAll('[data-cond]').forEach(function(cb){cb.checked=S.scDraft.conds.indexOf(cb.getAttribute('data-cond'))>-1;});}}
+  var sh=document.getElementById('s-hint');if(sh)sh.textContent=scHintText();return;}
+ if(el.getAttribute('data-f')==='empId'&&S.draft){
+  var ev2=empByCode(el.value);
+  if(ev2){S.draft.worker=ev2.name;var fw=document.getElementById('f-worker');if(fw)fw.value=ev2.name;
+   if(!S.draft.dept&&ev2.dept){S.draft.dept=ev2.dept;var fd=document.getElementById('f-dept');if(fd)fd.value=ev2.dept;}}
+  var h3=document.getElementById('emp-hint');if(h3)h3.textContent=empHint();
+  var ab3=document.getElementById('allergy-box');if(ab3)ab3.innerHTML=allergyBox();
+  var al3=document.getElementById('allow-box');if(al3)al3.innerHTML=allowBox();return;}
  if(el.getAttribute('data-sc')==='name'&&S.scDraft){scNameChanged();return;}
  if(el.getAttribute('data-fp')){S.period=el.value;render();return;}
  if(el.getAttribute('data-f')==='worker'&&S.draft){
