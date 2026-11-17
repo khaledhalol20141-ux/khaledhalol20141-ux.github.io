@@ -424,7 +424,7 @@ html[data-dense="1"] .card{padding:12px}
 html[data-dense="1"] .page{gap:12px}
 html[data-calm="1"] *,html[data-calm="1"] *::before,html[data-calm="1"] *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 body.is-viewer :is([data-act="addOpen"],[data-act="addSave"],[data-act="campDel"],[data-act="dedOpen"],[data-act="dedSave"],[data-act="delItem"],[data-act="delVisit"],[data-act="editVisit"],[data-act="empDel"],[data-act="empEdit"],[data-act="empNew"],[data-act="fuDone"],[data-act="hDel"],[data-act="hImport"],[data-act="hmDel"],[data-act="placeDel"],[data-act="recvOpen"],[data-act="recvSave"],[data-act="reqAdv"],[data-act="reqDel"],[data-act="reqFor"],[data-act="sDel"],[data-act="sEdit"],[data-act="sSave"],[data-act="scDel"],[data-act="scPick"],[data-act="tempDel"],[data-act="toggleMed"],[data-act="visitFor"],[data-act="wdOpen"],[data-act="wdSave"],[data-act="setBool"],[data-act="setType"],[data-act="qtyMed"],[data-act="nav"][data-v="new"],[data-act="nav"][data-v="lists"],.newbtn){display:none!important}
-body.is-viewer form[data-form]:not([data-form="pass"]){display:none!important}
+body.is-viewer form[data-form]:not([data-form="pass"]):not([data-form="unlock"]){display:none!important}
 </style>
 </head>
 <body>
@@ -575,7 +575,7 @@ function uid(){
 function num(v){var n=parseInt(v,10);return isNaN(n)?NaN:n;}
 
 var S={
- lang:store.get('lang','ar'),theme:store.get('theme','system'),palette:store.get('palette','green'),ui:store.get('ui','pro'),fs:store.get('fs','md'),dense:store.get('dense','0'),calm:store.get('calm','0'),start:store.get('start','home'),photo:'',dashRange:'week',reqPre:null,
+ lang:store.get('lang','ar'),theme:store.get('theme','system'),palette:store.get('palette','green'),ui:store.get('ui','pro'),fs:store.get('fs','md'),dense:store.get('dense','0'),calm:store.get('calm','0'),start:store.get('start','home'),lock:store.get('lock','0'),defDept:store.get('defDept',''),defOfficer:store.get('defOfficer',''),expDays:store.get('expDays','60'),hdr:store.get('hdr',{})||{},locked:false,photo:'',dashRange:'week',reqPre:null,
  session:null,user:null,role:null,loading:true,loaded:false,recovering:false,loadErr:'',
  lists:{depts:[],officers:[]},visits:[],stock:[],hmeds:[],moves:[],employees:[],requests:[],handovers:[],places:[],temps:[],campaigns:[],screenings:[],camp:null,scFilter:'all',scDraft:null,scPre:null,users:null,uErr:'',uAdd:false,uCreated:null,
  view:'home',menu:false,auth:'login',draft:null,editing:null,addOpen:null,empId:null,eDraft:null,recv:null,wd:null,sEdit:null,ded:null,dedNurse:'',sq:'',sf:'all',mf:'all',mvN:15,ij:{period:today().slice(0,7),dept:'',work:'work'},
@@ -588,7 +588,7 @@ T.ar.wdOver='عدد العلب أكبر من المتاح بالدولاب ال�
 T.en.outer='Outer cabinet';T.en.inner='Inner cabinet';T.en.boxWord='box(es)';T.en.boxes='Boxes';T.en.innerBoxes='Boxes in inner cabinet';T.en.outerQty='Outer quantity (loose units)';T.en.recvBoxes='Boxes received';
 T.en.perBox='Units per box';T.en.wd='Withdraw a box';T.en.wdHelp='Boxes leave the inner cabinet and their units are added to the outer cabinet.';T.en.wdDone='Box withdrawn and units added to the outer cabinet';
 T.en.wdOver='More boxes than available inside';T.en.needPerBox='Enter units per box';T.en.moveTr='Box withdrawn';T.en.wdHint='Withdraw a box';
-T.ar.analytics='التحليلات المتقدمة';T.ar.anRepeat='تكرار الزيارات';T.ar.anHeat='خريطة الأقسام';T.ar.anAbc='تحليل ABC';T.ar.anFc='تنبؤ الاستهلاك';T.ar.anMed='الدواء';T.ar.repCrit='معيار التنبيه: «تنبيه» = نفس الحالة 3 مرات أو أكثر خلال 90 يوم، أو 4 زيارات فأكثر خلال 30 يوم. «متابعة» = نفس الحالة مرتين، أو 3 زيارات خلال 30 يوم. التنبيه مؤشر للمراجعة الطبية وليس تشخيصًا.';T.ar.repNone='لا توجد حالات متكررة حاليًا.';T.ar.repAlert='تنبيه';T.ar.repWatch='متابعة';T.ar.rep7='7 أيام';T.ar.rep30='30 يوم';T.ar.rep90='90 يوم';T.ar.repCond='الحالة المتكررة';T.ar.repCondN='عدد التكرار';T.ar.repHistory='الزيارات المرتبطة بالحالة';T.ar.repSame='نفس الشكوى سُجلت {n} مرة خلال آخر 90 يوم، يلزم مراجعة الطبيب';T.ar.repFreq='زيارات متكررة: 7 أيام ({a}) · 30 يوم ({b}) · 90 يوم ({c})';T.ar.hmDay='يومي (14 يوم)';T.ar.hmWeek='أسبوعي (8 أسابيع)';T.ar.hmMonth='شهري (6 شهور)';T.ar.allTypes='كل الأنواع';T.ar.allShifts='كل الورديات';T.ar.hmTotal='الإجمالي';T.ar.hmInj='إصابات';T.ar.hmEmps='عدد الموظفين';T.ar.hmRate='إصابات لكل 100 موظف';T.ar.hmTop='الأعلى إصابات';T.ar.hmCrit='العدد = زيارات مسجلة بالقسم في الفترة المعروضة. الوردية تُحسب من وقت الزيارة: صباحية 08:00–15:59، مسائية 16:00–23:59، ليلية 00:00–07:59 (الزيارات بدون وقت لا تظهر عند اختيار وردية). معدل الإصابات = إصابات القسم ÷ عدد موظفي القسم المسجلين × 100.';T.ar.abcMonths='شهور';T.ar.abcUnits='الكمية (وحدات)';T.ar.abcValue='قيمة الاستهلاك';T.ar.abcShare='النسبة';T.ar.abcCum='التراكمي';T.ar.abcClass='الفئة';T.ar.abcTotal='إجمالي قيمة الاستهلاك';T.ar.abcWatch='رصيد منخفض';T.ar.abcNoPrice='بعض الصرف بدون سعر';T.ar.abcNoPriceN='{n} صنف فيه صرف بدون سعر مسجل، فقيمته ناقصة. سجّل سعر العلبة في المخزن.';T.ar.abcCrit='القيمة = الكمية المصروفة × سعر الوحدة وقت الصرف. A = الأصناف التي تمثل أول 80% من القيمة، B = حتى 95%، C = الباقي. للأولوية في الشراء والجرد، وليست بديلًا عن قرار الصيدلي.';T.ar.fcTitle='الاستهلاك المتوقع للشهر القادم';T.ar.fcActual='الشهر الماضي (فعلي)';T.ar.fcForecast='المتوقع';T.ar.fcStock='الرصيد';T.ar.fcCover='يكفي (شهر)';T.ar.fcOutDate='النفاد المتوقع';T.ar.fcReorder='الكمية المقترحة للطلب';T.ar.fcAtRisk='أصناف معرّضة للنفاد';T.ar.fcHist='شهور كاملة متاحة';T.ar.fcMonthly='الاستهلاك الشهري';T.ar.fcs_ok='كافٍ';T.ar.fcs_low='منخفض';T.ar.fcs_short='ينفد قريبًا';T.ar.fcs_out='نافد';T.ar.fcs_expired='منتهي الصلاحية';T.ar.fcExpUnits='منتهي: {n}';T.ar.fcInsufficient='البيانات غير كافية للتنبؤ: يلزم 3 شهور كاملة على الأقل من الصرف المسجل، والمتاح {n}. يظهر الاستهلاك الفعلي فقط.';T.ar.fcCrit='المتوقع = متوسط مرجّح لآخر 3 شهور كاملة (الأحدث وزنه 3 ثم 2 ثم 1). الرقم بين قوسين = ما كان سيتوقعه النظام للشهر الماضي. الرصيد المتاح لا يشمل الدفعات منتهية الصلاحية. الكمية المقترحة = المتوقع + 20% احتياطي − الرصيد الصالح، بالعلب. تقدير إحصائي يراجعه الصيدلي أو الطبيب.';T.en.analytics='Advanced analytics';T.en.anRepeat='Repeat visits';T.en.anHeat='Department heatmap';T.en.anAbc='ABC analysis';T.en.anFc='Consumption forecast';T.en.anMed='Medicine';T.en.repCrit='Alert rule: "Alert" = same condition 3+ times within 90 days, or 4+ visits within 30 days. "Watch" = same condition twice, or 3 visits within 30 days. An alert is a prompt for medical review, not a diagnosis.';T.en.repNone='No repeat cases at the moment.';T.en.repAlert='Alert';T.en.repWatch='Watch';T.en.rep7='7 days';T.en.rep30='30 days';T.en.rep90='90 days';T.en.repCond='Repeated condition';T.en.repCondN='Times';T.en.repHistory='Visits linked to this condition';T.en.repSame='Same complaint recorded {n} time(s) in the last 90 days, doctor review advised';T.en.repFreq='Frequent visits: 7 days ({a}) · 30 days ({b}) · 90 days ({c})';T.en.hmDay='Daily (14 days)';T.en.hmWeek='Weekly (8 weeks)';T.en.hmMonth='Monthly (6 months)';T.en.allTypes='All types';T.en.allShifts='All shifts';T.en.hmTotal='Total';T.en.hmInj='Injuries';T.en.hmEmps='Employees';T.en.hmRate='Injuries per 100 employees';T.en.hmTop='Most injuries';T.en.hmCrit='Count = visits recorded for the department in the period shown. The shift is derived from visit time: morning 08:00-15:59, evening 16:00-23:59, night 00:00-07:59 (visits without a time are hidden when a shift is selected). Injury rate = department injuries / registered department employees x 100.';T.en.abcMonths='months';T.en.abcUnits='Quantity (units)';T.en.abcValue='Consumption value';T.en.abcShare='Share';T.en.abcCum='Cumulative';T.en.abcClass='Class';T.en.abcTotal='Total consumption value';T.en.abcWatch='Low stock';T.en.abcNoPrice='Some dispensing has no price';T.en.abcNoPriceN='{n} item(s) have dispensing with no recorded price, so their value is understated. Enter the box price in stock.';T.en.abcCrit='Value = quantity dispensed x unit price at dispensing time. A = items making up the first 80% of value, B = up to 95%, C = the rest. A guide for purchasing and counting priorities, not a replacement for the pharmacist\'s judgement.';T.en.fcTitle='Expected consumption for next month';T.en.fcActual='Last month (actual)';T.en.fcForecast='Forecast';T.en.fcStock='Stock';T.en.fcCover='Lasts (months)';T.en.fcOutDate='Expected stock-out';T.en.fcReorder='Suggested order';T.en.fcAtRisk='Items at risk of running out';T.en.fcHist='Complete months available';T.en.fcMonthly='Monthly consumption';T.en.fcs_ok='OK';T.en.fcs_low='Low';T.en.fcs_short='Running out';T.en.fcs_out='Out of stock';T.en.fcs_expired='Expired';T.en.fcExpUnits='expired: {n}';T.en.fcInsufficient='Not enough data to forecast: at least 3 full months of recorded dispensing are needed, {n} available. Only actual consumption is shown.';T.en.fcCrit='Forecast = weighted average of the last 3 complete months (latest weighs 3, then 2, then 1). The number in brackets = what the system would have forecast for last month. Available stock excludes expired batches. Suggested order = forecast + 20% buffer - usable stock, in boxes. A statistical estimate to be reviewed by the pharmacist or doctor.';T.ar.noExp='بدون تاريخ';T.en.noExp='No date';T.ar.wdLot='الدفعة (تاريخ الصلاحية)';T.en.wdLot='Batch (expiry)';
+T.ar.analytics='التحليلات المتقدمة';T.ar.anRepeat='تكرار الزيارات';T.ar.anHeat='خريطة الأقسام';T.ar.anAbc='تحليل ABC';T.ar.anFc='تنبؤ الاستهلاك';T.ar.anMed='الدواء';T.ar.repCrit='معيار التنبيه: «تنبيه» = نفس الحالة 3 مرات أو أكثر خلال 90 يوم، أو 4 زيارات فأكثر خلال 30 يوم. «متابعة» = نفس الحالة مرتين، أو 3 زيارات خلال 30 يوم. التنبيه مؤشر للمراجعة الطبية وليس تشخيصًا.';T.ar.repNone='لا توجد حالات متكررة حاليًا.';T.ar.repAlert='تنبيه';T.ar.repWatch='متابعة';T.ar.rep7='7 أيام';T.ar.rep30='30 يوم';T.ar.rep90='90 يوم';T.ar.repCond='الحالة المتكررة';T.ar.repCondN='عدد التكرار';T.ar.repHistory='الزيارات المرتبطة بالحالة';T.ar.repSame='نفس الشكوى سُجلت {n} مرة خلال آخر 90 يوم، يلزم مراجعة الطبيب';T.ar.repFreq='زيارات متكررة: 7 أيام ({a}) · 30 يوم ({b}) · 90 يوم ({c})';T.ar.hmDay='يومي (14 يوم)';T.ar.hmWeek='أسبوعي (8 أسابيع)';T.ar.hmMonth='شهري (6 شهور)';T.ar.allTypes='كل الأنواع';T.ar.allShifts='كل الورديات';T.ar.hmTotal='الإجمالي';T.ar.hmInj='إصابات';T.ar.hmEmps='عدد الموظفين';T.ar.hmRate='إصابات لكل 100 موظف';T.ar.hmTop='الأعلى إصابات';T.ar.hmCrit='العدد = زيارات مسجلة بالقسم في الفترة المعروضة. الوردية تُحسب من وقت الزيارة: صباحية 08:00–15:59، مسائية 16:00–23:59، ليلية 00:00–07:59 (الزيارات بدون وقت لا تظهر عند اختيار وردية). معدل الإصابات = إصابات القسم ÷ عدد موظفي القسم المسجلين × 100.';T.ar.abcMonths='شهور';T.ar.abcUnits='الكمية (وحدات)';T.ar.abcValue='قيمة الاستهلاك';T.ar.abcShare='النسبة';T.ar.abcCum='التراكمي';T.ar.abcClass='الفئة';T.ar.abcTotal='إجمالي قيمة الاستهلاك';T.ar.abcWatch='رصيد منخفض';T.ar.abcNoPrice='بعض الصرف بدون سعر';T.ar.abcNoPriceN='{n} صنف فيه صرف بدون سعر مسجل، فقيمته ناقصة. سجّل سعر العلبة في المخزن.';T.ar.abcCrit='القيمة = الكمية المصروفة × سعر الوحدة وقت الصرف. A = الأصناف التي تمثل أول 80% من القيمة، B = حتى 95%، C = الباقي. للأولوية في الشراء والجرد، وليست بديلًا عن قرار الصيدلي.';T.ar.fcTitle='الاستهلاك المتوقع للشهر القادم';T.ar.fcActual='الشهر الماضي (فعلي)';T.ar.fcForecast='المتوقع';T.ar.fcStock='الرصيد';T.ar.fcCover='يكفي (شهر)';T.ar.fcOutDate='النفاد المتوقع';T.ar.fcReorder='الكمية المقترحة للطلب';T.ar.fcAtRisk='أصناف معرّضة للنفاد';T.ar.fcHist='شهور كاملة متاحة';T.ar.fcMonthly='الاستهلاك الشهري';T.ar.fcs_ok='كافٍ';T.ar.fcs_low='منخفض';T.ar.fcs_short='ينفد قريبًا';T.ar.fcs_out='نافد';T.ar.fcs_expired='منتهي الصلاحية';T.ar.fcExpUnits='منتهي: {n}';T.ar.fcInsufficient='البيانات غير كافية للتنبؤ: يلزم 3 شهور كاملة على الأقل من الصرف المسجل، والمتاح {n}. يظهر الاستهلاك الفعلي فقط.';T.ar.fcCrit='المتوقع = متوسط مرجّح لآخر 3 شهور كاملة (الأحدث وزنه 3 ثم 2 ثم 1). الرقم بين قوسين = ما كان سيتوقعه النظام للشهر الماضي. الرصيد المتاح لا يشمل الدفعات منتهية الصلاحية. الكمية المقترحة = المتوقع + 20% احتياطي − الرصيد الصالح، بالعلب. تقدير إحصائي يراجعه الصيدلي أو الطبيب.';T.en.analytics='Advanced analytics';T.en.anRepeat='Repeat visits';T.en.anHeat='Department heatmap';T.en.anAbc='ABC analysis';T.en.anFc='Consumption forecast';T.en.anMed='Medicine';T.en.repCrit='Alert rule: "Alert" = same condition 3+ times within 90 days, or 4+ visits within 30 days. "Watch" = same condition twice, or 3 visits within 30 days. An alert is a prompt for medical review, not a diagnosis.';T.en.repNone='No repeat cases at the moment.';T.en.repAlert='Alert';T.en.repWatch='Watch';T.en.rep7='7 days';T.en.rep30='30 days';T.en.rep90='90 days';T.en.repCond='Repeated condition';T.en.repCondN='Times';T.en.repHistory='Visits linked to this condition';T.en.repSame='Same complaint recorded {n} time(s) in the last 90 days, doctor review advised';T.en.repFreq='Frequent visits: 7 days ({a}) · 30 days ({b}) · 90 days ({c})';T.en.hmDay='Daily (14 days)';T.en.hmWeek='Weekly (8 weeks)';T.en.hmMonth='Monthly (6 months)';T.en.allTypes='All types';T.en.allShifts='All shifts';T.en.hmTotal='Total';T.en.hmInj='Injuries';T.en.hmEmps='Employees';T.en.hmRate='Injuries per 100 employees';T.en.hmTop='Most injuries';T.en.hmCrit='Count = visits recorded for the department in the period shown. The shift is derived from visit time: morning 08:00-15:59, evening 16:00-23:59, night 00:00-07:59 (visits without a time are hidden when a shift is selected). Injury rate = department injuries / registered department employees x 100.';T.en.abcMonths='months';T.en.abcUnits='Quantity (units)';T.en.abcValue='Consumption value';T.en.abcShare='Share';T.en.abcCum='Cumulative';T.en.abcClass='Class';T.en.abcTotal='Total consumption value';T.en.abcWatch='Low stock';T.en.abcNoPrice='Some dispensing has no price';T.en.abcNoPriceN='{n} item(s) have dispensing with no recorded price, so their value is understated. Enter the box price in stock.';T.en.abcCrit='Value = quantity dispensed x unit price at dispensing time. A = items making up the first 80% of value, B = up to 95%, C = the rest. A guide for purchasing and counting priorities, not a replacement for the pharmacist\'s judgement.';T.en.fcTitle='Expected consumption for next month';T.en.fcActual='Last month (actual)';T.en.fcForecast='Forecast';T.en.fcStock='Stock';T.en.fcCover='Lasts (months)';T.en.fcOutDate='Expected stock-out';T.en.fcReorder='Suggested order';T.en.fcAtRisk='Items at risk of running out';T.en.fcHist='Complete months available';T.en.fcMonthly='Monthly consumption';T.en.fcs_ok='OK';T.en.fcs_low='Low';T.en.fcs_short='Running out';T.en.fcs_out='Out of stock';T.en.fcs_expired='Expired';T.en.fcExpUnits='expired: {n}';T.en.fcInsufficient='Not enough data to forecast: at least 3 full months of recorded dispensing are needed, {n} available. Only actual consumption is shown.';T.en.fcCrit='Forecast = weighted average of the last 3 complete months (latest weighs 3, then 2, then 1). The number in brackets = what the system would have forecast for last month. Available stock excludes expired batches. Suggested order = forecast + 20% buffer - usable stock, in boxes. A statistical estimate to be reviewed by the pharmacist or doctor.';T.ar.secTitle='الأمان والتنبيهات';T.ar.lockLabel='القفل التلقائي';T.ar.lockOff='بدون';T.ar.minWord='دقيقة';T.ar.lockHint='بعد مدة عدم استخدام يُقفل التطبيق ويطلب كلمة السر. الإعداد خاص بهذا الجهاز.';T.ar.expDaysLbl='التنبيه قبل انتهاء الصلاحية (يوم)';T.ar.expDaysHint='الأصناف التي تنتهي صلاحيتها خلال هذه المدة تظهر كتنبيه.';T.ar.lockTitle='التطبيق مقفول';T.ar.lockNote='اكتب كلمة السر للمتابعة، الحساب:';T.ar.lockPass='كلمة السر';T.ar.unlock='فتح';T.ar.lockBad='كلمة السر غير صحيحة';T.ar.defTitle='القيم الافتراضية للزيارة';T.ar.defNote='تُملأ تلقائيًا عند تسجيل زيارة جديدة، ويمكن تغييرها في كل زيارة. الإعداد خاص بهذا الجهاز.';T.ar.noneOpt='بدون';T.ar.hdrTitle='ترويسة التقارير المطبوعة';T.ar.hdrNote='تظهر في أعلى كل تقرير أو ملف مطبوع. الإعداد خاص بهذا الجهاز.';T.ar.hdrName='اسم الشركة';T.ar.hdrAddr='العنوان';T.ar.hdrSig='اسم وصفة المسؤول (يظهر تحت خانة التوقيع)';T.ar.hdrLogo='اختيار شعار';T.ar.hdrLogoDel='حذف الشعار';T.ar.hdrSave='حفظ الترويسة';T.ar.prefSaved='تم الحفظ';T.ar.aboutTitle='عن التطبيق';T.ar.verLabel='رقم النسخة';T.ar.updNote='لو رفعت تحديثًا ولم يظهر، اضغط تحقق وسيُعاد تحميل التطبيق بآخر نسخة.';T.ar.updBtn='تحقق من التحديث';T.ar.updChecking='جارٍ التحقق من التحديث...';T.ar.updOffline='لا يوجد اتصال بالإنترنت';T.en.secTitle='Security and alerts';T.en.lockLabel='Auto-lock';T.en.lockOff='Off';T.en.minWord='min';T.en.lockHint='After a period of inactivity the app locks and asks for your password. This setting is per device.';T.en.expDaysLbl='Expiry warning (days)';T.en.expDaysHint='Items expiring within this period are shown as alerts.';T.en.lockTitle='App locked';T.en.lockNote='Enter your password to continue, account:';T.en.lockPass='Password';T.en.unlock='Unlock';T.en.lockBad='Wrong password';T.en.defTitle='Visit defaults';T.en.defNote='Filled in automatically when you log a new visit, and can be changed per visit. This setting is per device.';T.en.noneOpt='None';T.en.hdrTitle='Printed report header';T.en.hdrNote='Shown at the top of every printed report or file. This setting is per device.';T.en.hdrName='Company name';T.en.hdrAddr='Address';T.en.hdrSig='Officer name and title (shown under the signature box)';T.en.hdrLogo='Choose logo';T.en.hdrLogoDel='Remove logo';T.en.hdrSave='Save header';T.en.prefSaved='Saved';T.en.aboutTitle='About the app';T.en.verLabel='Version';T.en.updNote='If you published an update and it does not show, tap Check and the app reloads with the latest version.';T.en.updBtn='Check for update';T.en.updChecking='Checking for update...';T.en.updOffline='No internet connection';T.ar.noExp='بدون تاريخ';T.en.noExp='No date';T.ar.wdLot='الدفعة (تاريخ الصلاحية)';T.en.wdLot='Batch (expiry)';
 T.ar.wdOlder='توجد دفعة أقدم صلاحية ({x}) لم تُسحب بعد. هل تريد السحب من هذه الدفعة؟';T.en.wdOlder='A batch with an earlier expiry ({x}) is still in stock. Withdraw from this batch anyway?';
 T.ar.wdYes='نعم، اسحب';T.en.wdYes='Yes, withdraw';T.ar.expMonth='تاريخ الصلاحية (شهر/سنة)';T.en.expMonth='Expiry (month/year)';
 T.ar.outerExp='صلاحية الدولاب الخارجي (شهر/سنة)';T.en.outerExp='Outer cabinet expiry (month/year)';
@@ -878,10 +878,27 @@ function onErr(e){
  toast(t('syncErr')+': '+m,true);
  setTimeout(function(){loadAll(true,true).catch(function(){});},300);
 }
+var lastAct=+(function(){try{return localStorage.getItem('fc_last');}catch(e){return 0;}})()||Date.now();
+function touch(){lastAct=Date.now();try{localStorage.setItem('fc_last',String(lastAct));}catch(e){}}
+function lockCheck(){var m=+S.lock||0;if(!m||!S.session||S.locked||S.recovering)return;if(Date.now()-lastAct>m*60000){S.locked=true;render();}}
+function lockView(){
+ return '<div class="auth"><div class="auth-card"><div style="display:flex;justify-content:space-between;align-items:center">'+markSvg()+'</div><h2>'+esc(t('lockTitle'))+'</h2><p class="meta">'+esc(t('lockNote'))+' <bdi dir="ltr">'+esc(S.user&&S.user.email||'')+'</bdi></p>'+
+  '<form data-form="unlock" style="display:flex;flex-direction:column;gap:14px">'+field('u-pass',t('lockPass'),'<input type="password" id="u-pass" autocomplete="current-password" dir="ltr">')+'<div class="err" id="u-err"></div><div class="actions"><button class="btn" type="submit">'+esc(t('unlock'))+'</button><button type="button" class="btn ghost" data-act="logout">'+esc(t('logout'))+'</button></div></form></div></div>';
+}
+function pickLogo(inp){
+ var f=inp.files&&inp.files[0];if(!f)return;
+ if(!/^image\//.test(f.type)){toast(t('photoErr'),true);return;}
+ var fr=new FileReader();fr.onerror=function(){toast(t('photoErr'),true);};
+ fr.onload=function(){var im=new Image();im.onerror=function(){toast(t('photoErr'),true);};
+  im.onload=function(){try{var mx=240,k=Math.min(1,mx/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+   S.hdr=Object.assign({},S.hdr,{logo:c.toDataURL('image/png')});save('hdr');render();toast(t('prefSaved'));}catch(e){toast(t('photoErr'),true);}};
+  im.src=fr.result;};
+ fr.readAsDataURL(f);
+}
 function save(){
  var keys=[].slice.call(arguments),sync=[];
  keys.forEach(function(k){
-  if(k==='lang'||k==='theme'||k==='palette'||k==='ui'||k==='fs'||k==='dense'||k==='calm'||k==='start')store.set(k,S[k]);
+  if(k==='lang'||k==='theme'||k==='palette'||k==='ui'||k==='fs'||k==='dense'||k==='calm'||k==='start'||k==='lock'||k==='defDept'||k==='defOfficer'||k==='expDays'||k==='hdr')store.set(k,S[k]);
   else if(k==='lists'||SPEC[k])sync.push(k);
  });
  if(!sync.length||!sb||isViewer())return;
@@ -1008,7 +1025,7 @@ function startSession(u){
  if(!S.loaded)S.view=['home','new','visits','followups'].indexOf(S.start)>-1&&!(S.start==='new'&&isViewer())?S.start:'home';
  S.photo=store.get('photo_'+u.id,'')||'';
  try{var qv=new URLSearchParams(location.search).get('v');if(['home','new','visits','followups','stock'].indexOf(qv)>-1&&!(qv==='new'&&isViewer()))S.view=qv;}catch(e){}
- S.session=u.email;S.user={id:u.id,email:u.email,name:''};S.loading=true;S.loaded=false;S.loadErr='';S.role=null;render();
+ S.session=u.email;S.user={id:u.id,email:u.email,name:''};S.loading=true;S.loaded=false;S.loadErr='';S.role=null;lockCheck();render();
  sb.from('profiles').select('full_name,role').eq('id',u.id).maybeSingle().then(function(r){
   if(r.error)throw r.error;
   S.role=r.data?r.data.role:null;
@@ -1019,7 +1036,7 @@ function startSession(u){
  }).catch(function(e){S.loading=false;S.loadErr=(e&&e.message)||'error';render();});
 }
 function resetState(){
- S.session=null;S.user=null;S.role=null;S.loaded=false;S.loading=false;S.recovering=false;S.loadErr='';
+ S.locked=false;S.session=null;S.user=null;S.role=null;S.loaded=false;S.loading=false;S.recovering=false;S.loadErr='';
  S.lists={depts:[],officers:[]};['visits','stock','hmeds','moves','employees','requests','handovers','places','temps','campaigns','screenings'].forEach(function(k){S[k]=[];});
  S.camp=null;S.scDraft=null;S.users=null;S.uCreated=null;S.uAdd=false;S.view='home';navLast=null;S.menu=false;S.auth='login';S.err='';S.draft=null;S.editing=null;lastSig='';
  Object.keys(SNAP).forEach(function(k){SNAP[k]={};});
@@ -1042,7 +1059,9 @@ function boot(){
   if(u)startSession(u);else{S.loading=false;render();}
  }).catch(function(){S.loading=false;render();});
  setInterval(poll,20000);
- document.addEventListener('visibilitychange',function(){if(!document.hidden)poll();});
+ setInterval(lockCheck,15000);
+ ['pointerdown','keydown','touchstart','scroll'].forEach(function(n){document.addEventListener(n,function(){if(!S.locked&&Date.now()-lastAct>2000)touch();},{passive:true,capture:true});});
+ document.addEventListener('visibilitychange',function(){if(!document.hidden){lockCheck();poll();}});
  render();
 }
 
@@ -1198,7 +1217,7 @@ function alSheet(m){
 }
 
 /* ---------- stock helpers ---------- */
-var EXP_SOON=60;
+var EXP_SOON=+store.get('expDays','60')||60;var APP_VER='v21';
 function daysTo(d){if(!d)return null;var p=d.split('-'),n=new Date();return Math.round((new Date(+p[0],+p[1]-1,+p[2])-new Date(n.getFullYear(),n.getMonth(),n.getDate()))/864e5);}
 function addD(d,n){var p=d.split('-'),x=new Date(+p[0],+p[1]-1,+p[2]);x.setDate(x.getDate()+n);return ds(x);}
 /* Expiry is tracked per batch (month/year): boxes in the inner cabinet by lot, plus the loose units in the outer cabinet. */
@@ -1505,7 +1524,7 @@ function homeView(){
   (dk.length?dk.map(function(k,n){return '<div class="dbar"><div class="dh"><span>'+esc(k)+'</span><b>'+dm[k]+'</b></div><div class="track"><i style="width:'+Math.round(dm[k]/dmx*100)+'%;background:'+cols[n%cols.length]+'"></i></div></div>';}).join(''):'<div class="empty">'+esc(t('noVisits'))+'</div>')+'</section>';
  return top+homeAlerts(true)+stats+'<div class="dash"><div class="dcol">'+chart+table+'</div><div class="dcol">'+alerts+depts+'</div></div>';
 }
-function newDraft(){return {date:today(),type:'checkup',worker:'',empId:'',dept:'',officer:'',meds:[],injuryPlace:'',injuryCause:'',injuryTime:'',workRelated:true,complaint:'',procedures:'',diagnosis:'',notes:'',followup:'',followupDone:false,vitals:{sys:'',dia:'',pulse:'',temp:'',resp:'',spo2:''},referred:false,hospital:'',refReason:'',refExit:'',leaveDays:'',returnDate:'',retManual:false};}
+function newDraft(){return {date:today(),type:'checkup',worker:'',empId:'',dept:(S.lists.depts.indexOf(S.defDept)>-1?S.defDept:''),officer:(S.lists.officers.indexOf(S.defOfficer)>-1?S.defOfficer:''),meds:[],injuryPlace:'',injuryCause:'',injuryTime:'',workRelated:true,complaint:'',procedures:'',diagnosis:'',notes:'',followup:'',followupDone:false,vitals:{sys:'',dia:'',pulse:'',temp:'',resp:'',spo2:''},referred:false,hospital:'',refReason:'',refExit:'',leaveDays:'',returnDate:'',retManual:false};}
 function addRow(list){
  return '<div class="addrow"><input type="text" id="add-'+list+'" placeholder="'+esc(t('newName'))+'" data-enter="addSave" data-list="'+list+'" aria-label="'+esc(t('newName'))+'"><button type="button" class="btn sm" data-act="addSave" data-list="'+list+'">'+esc(t('add'))+'</button></div>';
 }
@@ -2119,6 +2138,19 @@ function settingsView(){
  '<div class="field"><span class="lbl">'+esc(t('calm'))+'</span>'+seg('calm',S.calm,[['0',t('calmOff')],['1',t('calmOn')]])+'</div>'+
  '<div class="field"><span class="lbl">'+esc(t('startPage'))+'</span>'+seg('start',S.start,[['home',t('home')],['new',t('newShort')],['visits',t('visits')],['followups',t('followups')]])+'</div></section>'+
  '<section class="card" style="display:flex;flex-direction:column;gap:14px"><h2 style="margin:0">'+esc(t('photo'))+'</h2><div style="display:flex;align-items:center;gap:16px"><span class="uav avbig">'+avInner()+'</span><div style="display:flex;flex-direction:column;gap:8px"><label class="btn sm" style="cursor:pointer">'+esc(t('photoPick'))+'<input type="file" accept="image/*" data-photo="1" hidden></label>'+(S.photo?'<button class="btn ghost sm" data-act="photoDel">'+esc(t('photoDel'))+'</button>':'')+'</div></div><p class="meta" style="margin:0">'+esc(t('photoNote'))+'</p></section>'+
+ '<section class="card" style="display:flex;flex-direction:column;gap:16px"><h2 style="margin:0">'+esc(t('secTitle'))+'</h2>'+
+  '<div class="field"><span class="lbl">'+esc(t('lockLabel'))+'</span>'+seg('lock',S.lock,[['0',t('lockOff')],['1','1 '+t('minWord')],['5','5 '+t('minWord')],['15','15 '+t('minWord')],['30','30 '+t('minWord')]])+'<small class="meta">'+esc(t('lockHint'))+'</small></div>'+
+  '<div class="field"><span class="lbl">'+esc(t('expDaysLbl'))+'</span>'+seg('expDays',String(S.expDays),[['30','30'],['60','60'],['90','90'],['120','120']])+'<small class="meta">'+esc(t('expDaysHint'))+'</small></div></section>'+
+ (isViewer()?'':'<section class="card" style="display:flex;flex-direction:column;gap:14px"><h2 style="margin:0">'+esc(t('defTitle'))+'</h2><p class="meta" style="margin:0">'+esc(t('defNote'))+'</p>'+
+  field('d-dept',t('dept'),'<select data-pref="defDept"><option value="">'+esc(t('noneOpt'))+'</option>'+S.lists.depts.map(function(n){return '<option value="'+esc(n)+'"'+(S.defDept===n?' selected':'')+'>'+esc(n)+'</option>';}).join('')+'</select>')+field('d-off',t('officer'),'<select data-pref="defOfficer"><option value="">'+esc(t('noneOpt'))+'</option>'+S.lists.officers.map(function(n){return '<option value="'+esc(n)+'"'+(S.defOfficer===n?' selected':'')+'>'+esc(n)+'</option>';}).join('')+'</select>')+'</section>'+
+ '<form data-form="hdr" class="card" style="display:flex;flex-direction:column;gap:14px"><h2 style="margin:0">'+esc(t('hdrTitle'))+'</h2><p class="meta" style="margin:0">'+esc(t('hdrNote'))+'</p>'+
+  field('h-name',t('hdrName'),'<input type="text" id="h-name" value="'+esc((S.hdr||{}).name||'')+'" placeholder="PYRAMID GLASS">')+
+  field('h-addr',t('hdrAddr'),'<input type="text" id="h-addr" value="'+esc((S.hdr||{}).addr||'')+'">')+
+  field('h-phone',t('phone'),'<input type="text" id="h-phone" dir="ltr" style="text-align:start" value="'+esc((S.hdr||{}).phone||'')+'">')+
+  field('h-sig',t('hdrSig'),'<input type="text" id="h-sig" value="'+esc((S.hdr||{}).sig||'')+'">')+
+  '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">'+((S.hdr||{}).logo?'<img src="'+esc(S.hdr.logo)+'" alt="" style="height:48px;background:#fff;border-radius:8px;padding:4px">':'')+'<label class="btn ghost sm" style="cursor:pointer">'+esc(t('hdrLogo'))+'<input type="file" accept="image/*" data-logo="1" hidden></label>'+((S.hdr||{}).logo?'<button type="button" class="btn ghost sm" data-act="logoDel">'+esc(t('hdrLogoDel'))+'</button>':'')+'</div>'+
+  '<div><button class="btn" type="submit">'+esc(t('hdrSave'))+'</button></div></form>')+
+ '<section class="card" style="display:flex;flex-direction:column;gap:12px"><h2 style="margin:0">'+esc(t('aboutTitle'))+'</h2><div class="kv"><span>'+esc(t('verLabel'))+'</span><span dir="ltr">'+APP_VER+'</span></div><p class="meta" style="margin:0">'+esc(t('updNote'))+'</p><div class="actions"><button class="btn ghost" data-act="chkUpdate">'+esc(t('updBtn'))+'</button></div></section>'+
  '<section class="card"><h2>'+esc(t('account'))+'</h2><div class="kv"><span>'+esc(t('name'))+'</span><span>'+esc(u.name)+'</span></div><div class="kv"><span>'+esc(t('email'))+'</span><span dir="ltr">'+esc(u.email)+'</span></div><div class="kv"><span>'+esc(t('role'))+'</span><span>'+esc(t('role_'+S.role))+'</span></div></section>'+
  '<form data-form="pass" class="card" style="display:flex;flex-direction:column;gap:14px"><h2 style="margin:0">'+esc(t('changePass'))+'</h2>'+
   field('p-old',t('oldPass'),'<input type="password" id="p-old" autocomplete="current-password" dir="ltr">')+
@@ -2259,9 +2291,9 @@ function printDoc(html,title){
  window.addEventListener('afterprint',done);
  setTimeout(function(){try{window.print();}catch(e){done();}},60);
 }
-function docHead(title){return '<div class="ph1"><div><h1>'+esc(t('app'))+'</h1><div>PYRAMID GLASS</div></div><div style="text-align:end"><b>'+esc(title)+'</b><br>'+esc(t('generated'))+': '+esc(fmt(today()))+'</div></div>';}
+function docHead(title){var h=S.hdr||{};return '<div class="ph1"><div style="display:flex;align-items:center;gap:10px">'+(h.logo?'<img src="'+esc(h.logo)+'" alt="" style="height:52px;width:auto">':'')+'<div><h1>'+esc(t('app'))+'</h1><div>'+esc(h.name||'PYRAMID GLASS')+'</div>'+((h.addr||h.phone)?'<div style="font-size:12px;color:#555">'+esc([h.addr,h.phone].filter(Boolean).join(' · '))+'</div>':'')+'</div></div><div style="text-align:end"><b>'+esc(title)+'</b><br>'+esc(t('generated'))+': '+esc(fmt(today()))+'</div></div>';}
 function kvTbl(rows){return '<table>'+rows.filter(function(r){return isSet(r[1]);}).map(function(r){return '<tr><th style="width:32%">'+esc(r[0])+'</th><td>'+(r[2]?'<span class="red">'+esc(r[1])+'</span>':esc(r[1]))+'</td></tr>';}).join('')+'</table>';}
-function sigBlock(){return '<div class="sig"><div>'+esc(t('signOfficer'))+'</div><div>'+esc(t('signMgr'))+'</div></div>';}
+function sigBlock(){var h=S.hdr||{};return '<div class="sig"><div>'+esc(t('signOfficer'))+(h.sig?'<br><small>'+esc(h.sig)+'</small>':'')+'</div><div>'+esc(t('signMgr'))+'</div></div>';}
 function vitText(v){
  if(!v)return '';var o=[];
  if(isSet(v.sys)||isSet(v.dia))o.push(t('v_bp')+' '+(isSet(v.sys)?v.sys:'?')+'/'+(isSet(v.dia)?v.dia:'?'));
@@ -2652,6 +2684,7 @@ function render(){
  var app=document.getElementById('app');
  if(S.loading&&!S.loaded){app.innerHTML=loadingView();return;}
  if(S.recovering||!S.session){app.innerHTML=authView();return;}
+ if(S.locked){app.innerHTML=lockView();var up=document.getElementById('u-pass');if(up)setTimeout(function(){up.focus();},50);return;}
  if(S.loadErr&&!S.loaded){app.innerHTML=stateView(t('loadFail')+': '+S.loadErr,true);return;}
  if(!isTeam()){app.innerHTML=stateView(t('noAccess'),false);return;}
  navSync();
@@ -2753,6 +2786,13 @@ function act(a,p){
  else if(a==='setlang'){S.lang=v;save('lang');render();}
  else if(a==='theme'){S.theme=v;save('theme');render();}
  else if(a==='fs'||a==='dense'||a==='calm'||a==='start'){S[a]=v;save(a);applyEnv();render();}
+ else if(a==='lock'||a==='expDays'){S[a]=v;save(a);if(a==='expDays')EXP_SOON=+v||60;touch();render();}
+ else if(a==='chkUpdate'){
+  if(!navigator.onLine){toast(t('updOffline'),true);return;}
+  toast(t('updChecking'));
+  var done=function(){setTimeout(function(){location.reload();},400);};
+  if(navigator.serviceWorker&&navigator.serviceWorker.getRegistration){navigator.serviceWorker.getRegistration().then(function(r){return r?r.update():null;}).then(done,done);}else done();}
+ else if(a==='logoDel'){var h2=Object.assign({},S.hdr);delete h2.logo;S.hdr=h2;save('hdr');render();}
  else if(a==='anTab'){S.an.tab=v;render();}
  else if(a==='anSet'){S.an[p.k]=v;render();}
  else if(a==='xlsxAn'){exportXlsx(anExport.name,[[t('analytics'),anExport.rows]]);}
@@ -2954,6 +2994,8 @@ document.addEventListener('input',function(ev){
 document.addEventListener('change',function(ev){
  var el=ev.target;
  if(el.getAttribute('data-photo')){pickPhoto(el);return;}
+ if(el.getAttribute('data-logo')){pickLogo(el);el.value='';return;}
+ if(el.getAttribute('data-pref')){var pk=el.getAttribute('data-pref');S[pk]=el.value;save(pk);toast(t('prefSaved'));return;}
  if(el.getAttribute('data-al')){S.al.period=el.value;render();return;}
  if(el.getAttribute('data-ij')){S.ij[el.getAttribute('data-ij')]=el.value;render();return;}
  if(el.getAttribute('data-sc')==='id'&&S.scDraft){
@@ -3032,6 +3074,17 @@ document.addEventListener('submit',function(ev){
     toast(t('passDone'));
    });
   });
+ }else if(form==='unlock'){
+  var up2=document.getElementById('u-pass').value,ue=document.getElementById('u-err');
+  if(!up2){ue.textContent=t('req');return;}
+  ue.textContent='';
+  sb.auth.signInWithPassword({email:S.user.email,password:up2}).then(function(r){
+   if(r.error){ue.textContent=/fetch|network|failed/i.test(r.error.message||'')?t('updOffline'):t('lockBad');return;}
+   S.locked=false;touch();render();
+  }).catch(function(){ue.textContent=t('updOffline');});
+ }else if(form==='hdr'){
+  S.hdr=Object.assign({},S.hdr,{name:val('h-name'),addr:val('h-addr'),phone:val('h-phone'),sig:val('h-sig')});
+  save('hdr');toast(t('prefSaved'));
  }else if(form==='emp'){
   var d=S.eDraft,nm=val('e-name'),eid=val('e-id'),dp=document.getElementById('e-dept').value,ee=document.getElementById('e-err');
   if(!nm){ee.textContent=t('needEmpName');return;}
