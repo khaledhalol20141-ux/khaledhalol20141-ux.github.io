@@ -1291,7 +1291,7 @@ function authView(){
 function navItems(){return navAll().filter(function(it){return !(isViewer()&&(it[0]==='new'||it[0]==='lists'));});}
 function navAll(){return [['home','home',t('home')],['new','plus',t('newVisit')],['visits','clip',t('visits')],['followups','bell',t('followups')],['injuries','cross',t('injReport')],['allowance','pill',t('allowance')],['employees','users',t('employees')],['campaigns','pulse',t('campaigns')],['stock','box',t('stock')],['temps','temp',t('temps')],['requests','file',t('requests')],['handover','check',t('handover')],['dashboard','dash',t('dashboard')],['reports','chart',t('reports')],['analytics','dash',t('analytics')],['lists','list',t('lists')]].concat(S.role==='admin'?[['audit','clip',t('auTitle')],['users','shield',t('users')]]:[]).concat([['settings','cog',t('settings')]]);}
 function curView(){return S.view==='employee'||S.view==='empForm'?'employees':S.view;}
-var NAV_GROUPS=[['secMain',['home','new','visits','followups','employees','injuries','allowance','campaigns']],['secServices',['stock','temps','requests','handover']],['secAdmin',['dashboard','reports','lists','users','settings']]];
+var NAV_GROUPS=[['secMain',['home','new','visits','followups','employees','injuries','allowance','campaigns']],['secServices',['stock','temps','requests','handover']],['secAdmin',['dashboard','reports','analytics','audit','lists','users','settings']]];
 function avInner(){return S.photo?'<img src="'+esc(S.photo)+'" alt="">':esc(initials(S.user.name)||'؟');}
 function initials(n){var w=String(n||'').replace(/@.*/,'').trim().split(/\s+/).filter(Boolean);return (w[0]?w[0].charAt(0):'')+(w[1]?w[1].charAt(0):'');}
 function tickClock(){
